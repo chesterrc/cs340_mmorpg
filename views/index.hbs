@@ -1,0 +1,28 @@
+<!-- index.hbs -->
+{{!-- Create a table --}}
+<table>
+    {{!-- Header section --}}
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+    {{!-- Body section --}}
+    <tbody>
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.user_id}}</td>
+            <td>{{this.char_name}}</td>
+            <td>{{this.char_xp}}</td>
+            <td>{{this.char_lvl}}</td>
+            <td>{{this.regions_rg_id}}</td>
+            <td>{{this.inventory_inv_id}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
