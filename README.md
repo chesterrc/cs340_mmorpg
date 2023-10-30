@@ -1,4 +1,4 @@
-#Description   
+# Description   
 This is a project for the CS340 Databases class where we set up a MySQL database that connects to an express server using Node.js. 
 
 The goal for this database implementation is to create a website that showcases 
