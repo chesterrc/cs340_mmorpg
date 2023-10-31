@@ -1,0 +1,23 @@
+{{!-- Create a table for player --}}
+<table id="players-tables">
+    {{!-- Header section --}}
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+    {{!-- Body section --}}
+    <tbody>
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.rg_id}}</td>
+            <td>{{this.rg_name}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

@@ -1,0 +1,25 @@
+{{!-- Create a table for monster --}}
+<table id="monsters-tables">
+    {{!-- Header section --}}
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+    {{!-- Body section --}}
+    <tbody>
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.monster_id}}</td>
+            <td>{{this.monster_name}}</td>
+            <td>{{this.monster_lvl}}</td>
+            <td>{{this.regions_rg_id}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

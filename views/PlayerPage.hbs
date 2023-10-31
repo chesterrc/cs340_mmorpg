@@ -1,0 +1,54 @@
+<!-- PlayerPage.hbs -->
+{{!-- Create a table for player --}}
+<table id="players-tables">
+    {{!-- Header section --}}
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+    {{!-- Body section --}}
+    <tbody>
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.user_id}}</td>
+            <td>{{this.char_name}}</td>
+            <td>{{this.char_xp}}</td>
+            <td>{{this.char_lvl}}</td>
+            <td>{{this.regions_rg_id}}</td>
+            <td>{{this.inventory_inv_id}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<!-- Integrating Adding of players later
+{{ Form to add a record to the table  }}
+<h2>Adding Data with AJAX</h2>
+<p>To add a new person, please enter their information below and click 'Submit'!</p>
+<form id="add-person-form-ajax">
+    <label for="input-fname">Character Name: </label>
+    <input type="text" name="input-fname" id="input-fname">
+    
+    <label for="input-xp">Character Expereince: </label>
+    <input type="text" name="input-lname" id="input-lname">
+
+    <label for="input-lvl">Level: </label>
+    <input type="number" name="input-homeworld" id="input-homeworld">
+
+    <label for="input-rg">Region: </label>
+    <input type="number" name="input-age" id="input-age">
+   
+    <label for="input-inv-id">Inventory: </label>
+    <input type="number" name="input-age" id="input-age">
+
+    <input type="submit">
+</form>
+
+{{!Embed our javascript to handle the DOM manipulation and AJAX request}}
+<script src="./js/add_person.js"></script>
+--> 

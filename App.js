@@ -1,5 +1,5 @@
 // App.js
-
+// controller to get, update, delete, or push data in myql database 
 /*
     SETUP
 */
@@ -13,21 +13,75 @@ var exphbs = require('express-handlebars');     // Import express-handlebars
 app.engine('.hbs', engine({extname: ".hbs"}));  
 app.set('view engine', '.hbs');                 
 
-// app.js
+//register css files for use in express
+app.use(express.static(__dirname + '/public'));
 
 // Database
-var db = require('./database/db-connector')
+var db = require('./database/db-connector');
 
 /*
     ROUTES
 */
+//homepage
 app.get('/', function(req, res)
     {
+        res.render('index', {layout: 'main.hbs'})             // Note the call to render() and not send(). Using render() ensures the templating engine
+    });                                      
+
+/*
+Player Page
+*/
+app.get('/players-page', function(req, res)
+    {   
         let query_player = "SELECT * FROM Players;";
         db.pool.query(query_player, function(error, rows, fields){
-            res.render('index', {data: rows});
-        })                    // Note the call to render() and not send(). Using render() ensures the templating engine
-    });                                         // will process this file, before sending the finished HTML to the client.
+            res.render('PlayerPage', {data: rows}, {layout: 'players.css'});
+        })  
+    });
+
+/*
+Inventory Page
+*/
+app.get('/invts-page', function(req, res)
+    {
+        let query_invts = "SELECT * FROM Inventory;";
+        db.pool.query(query_invts, function(error, rows, fields){
+            res.render('InventoryPage', {data: rows}, {layout: 'inventory.css'});
+        })  
+    });
+
+/*
+Items Page
+*/
+app.get('/items-page', function(req, res)
+    {
+        let query_items = "SELECT * FROM Items;";
+        db.pool.query(query_items, function(error, rows, fields){
+            res.render('ItemsPage', {data: rows}, {layout: 'items.css'});
+        })  
+    });
+
+/*
+monsters Page
+*/
+app.get('/monsters-page', function(req, res)
+    {
+        let query_monsters = "SELECT * FROM Monsters;";
+        db.pool.query(query_monsters, function(error, rows, fields){
+            res.render('PlayerPage', {data: rows}, {layout: 'monster.css'});
+        })  
+    });
+
+/*
+Regions Page
+*/
+app.get('/regions-page', function(req, res)
+    {
+        let query_regions = "SELECT * FROM Players;";
+        db.pool.query(query_regions, function(error, rows, fields){
+            res.render('PlayerPage', {data: rows}, {layout: 'regions.css'});
+        })  
+    });
 
 /*
     LISTENER

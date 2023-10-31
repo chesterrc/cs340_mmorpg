@@ -1,0 +1,24 @@
+{{!-- Create a table for items --}}
+<table id="items-tables">
+    {{!-- Header section --}}
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+    {{!-- Body section --}}
+    <tbody>
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.item_id}}</td>
+            <td>{{this.item_name}}</td>
+            <td>{{this.regions_rg_id}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

@@ -1,28 +1,14 @@
 <!-- index.hbs -->
-{{!-- Create a table --}}
-<table>
-    {{!-- Header section --}}
-    <thead>
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
-        </tr>
-    </thead>
-    {{!-- Body section --}}
-    <tbody>
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each data}}
-        <tr>
-            <td>{{this.user_id}}</td>
-            <td>{{this.char_name}}</td>
-            <td>{{this.char_xp}}</td>
-            <td>{{this.char_lvl}}</td>
-            <td>{{this.regions_rg_id}}</td>
-            <td>{{this.inventory_inv_id}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+<h1>The server is running!</h1>
+<p>If you see this text, the server is <strong>definitely</strong> working!</p>
+<nav id="navbar">
+    <ul>
+        <li>
+            <a href="/players-page">Players</a>
+            <a href="/invts-page">Player Inventories</a>
+            <a href="/regions-page">Player Inventories</a>
+            <a href="/monsters-page">Monsters</a>
+            <a href="/items-page">Player Inventories</a>
+        </li>
+    </ul>
+</nav>
