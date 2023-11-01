@@ -25,17 +25,22 @@ var db = require('./database/db-connector');
 //homepage
 app.get('/', function(req, res)
     {
-        res.render('index', {sytle: 'index.css'})             // Note the call to render() and not send(). Using render() ensures the templating engine
+        res.render('index', {style: 'index.css'})             // Note the call to render() and not send(). Using render() ensures the templating engine
     });                                      
+/* ***********************************
+    sytle sheets aren't accesible for all pages
+    -got to figure out how to incorporate styles to each one
+*/
 
 /*
 Player Page
 */
 app.get('/players-page', function(req, res)
     {   
+        console.log('functions is passed through') //for debugging
         let query_player = "SELECT * FROM Players;";
         db.pool.query(query_player, function(error, rows, fields){
-            res.render('PlayerPage', {data: rows}, {syle: 'players.css'});
+            res.render('PlayerPage', {data: rows});
         })  
     });
 
@@ -46,7 +51,7 @@ app.get('/invts-page', function(req, res)
     {
         let query_invts = "SELECT * FROM Inventory;";
         db.pool.query(query_invts, function(error, rows, fields){
-            res.render('InventoryPage', {data: rows}, {style: 'inventory.css'});
+            res.render('InventoryPage', {data: rows});
         })  
     });
 
@@ -57,7 +62,7 @@ app.get('/items-page', function(req, res)
     {
         let query_items = "SELECT * FROM Items;";
         db.pool.query(query_items, function(error, rows, fields){
-            res.render('ItemsPage', {data: rows}, {style: 'items.css'});
+            res.render('ItemsPage', {data: rows});
         })  
     });
 
@@ -68,7 +73,8 @@ app.get('/monsters-page', function(req, res)
     {
         let query_monsters = "SELECT * FROM Monsters;";
         db.pool.query(query_monsters, function(error, rows, fields){
-            res.render('PlayerPage', {data: rows}, {style: 'monster.css'});
+            console.log({data: rows})// debugging
+            res.render('PlayerPage', {data: rows});
         })  
     });
 
@@ -79,7 +85,7 @@ app.get('/regions-page', function(req, res)
     {
         let query_regions = "SELECT * FROM Players;";
         db.pool.query(query_regions, function(error, rows, fields){
-            res.render('PlayerPage', {data: rows}, {style: 'regions.css'});
+            res.render('PlayerPage', {data: rows});
         })  
     });
 
