@@ -40,7 +40,7 @@ app.get('/players-page', function(req, res)
         console.log('functions is passed through') //for debugging
         let query_player = "SELECT * FROM Players;";
         db.pool.query(query_player, function(error, rows, fields){
-            res.render('PlayerPage', {data: rows});
+            res.render('PlayerPage', {data: rows, style:'players.css'});
         })  
     });
 
@@ -51,7 +51,7 @@ app.get('/invts-page', function(req, res)
     {
         let query_invts = "SELECT * FROM Inventory;";
         db.pool.query(query_invts, function(error, rows, fields){
-            res.render('InventoryPage', {data: rows});
+            res.render('InventoryPage', {data: rows, style: 'inventory.css'});
         })  
     });
 
@@ -62,7 +62,7 @@ app.get('/items-page', function(req, res)
     {
         let query_items = "SELECT * FROM Items;";
         db.pool.query(query_items, function(error, rows, fields){
-            res.render('ItemsPage', {data: rows});
+            res.render('ItemsPage', {data: rows, style: 'items.css'});
         })  
     });
 
@@ -74,7 +74,7 @@ app.get('/monsters-page', function(req, res)
         let query_monsters = "SELECT * FROM Monsters;";
         db.pool.query(query_monsters, function(error, rows, fields){
             console.log({data: rows})// debugging
-            res.render('PlayerPage', {data: rows});
+            res.render('PlayerPage', {data: rows, style:'monster.css'});
         })  
     });
 
@@ -85,7 +85,7 @@ app.get('/regions-page', function(req, res)
     {
         let query_regions = "SELECT * FROM Players;";
         db.pool.query(query_regions, function(error, rows, fields){
-            res.render('PlayerPage', {data: rows});
+            res.render('PlayerPage', {data: rows, style: 'regions.css'});
         })  
     });
 
