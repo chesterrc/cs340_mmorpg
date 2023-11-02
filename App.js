@@ -73,7 +73,7 @@ app.get('/monsters-page', function(req, res)
     {
         let query_monsters = "SELECT * FROM Monsters;";
         db.pool.query(query_monsters, function(error, rows, fields){
-            console.log({data: rows})// debugging
+            console.log({data: fields})// debugging
             res.render('PlayerPage', {data: rows, style:'monster.css'});
         })  
     });
@@ -83,7 +83,7 @@ Regions Page
 */
 app.get('/regions-page', function(req, res)
     {
-        let query_regions = "SELECT * FROM Players;";
+        let query_regions = "SELECT * FROM Regions;";
         db.pool.query(query_regions, function(error, rows, fields){
             res.render('PlayerPage', {data: rows, style: 'regions.css'});
         })  
