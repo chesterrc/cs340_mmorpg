@@ -74,7 +74,7 @@ app.get('/monsters-page', function(req, res)
         let query_monsters = "SELECT * FROM Monsters;";
         db.pool.query(query_monsters, function(error, rows, fields){
             console.log({data: rows})// debugging
-            res.render('PlayerPage', {data: rows, style:'monster.css'});
+            res.render('MonsterPage', {data: rows, style:'monster.css'});
         })  
     });
 
@@ -84,9 +84,9 @@ Regions Page
 app.get('/regions-page', function(req, res)
     {
         let query_regions = "SELECT * FROM Regions;";
-        console.log({data: rows}) //debugging
         db.pool.query(query_regions, function(error, rows, fields){
-            res.render('PlayerPage', {data: rows, style: 'regions.css'});
+            console.log({data: rows});
+            res.render('RegionsPage', {data: rows, style: 'regions.css'});
         })  
     });
 
