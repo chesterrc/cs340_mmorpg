@@ -22,4 +22,25 @@
         {{/each}}
     </tbody>
 </table>
+<!-- add a person -->
+<!-- /views/index.hbs -->
+
+{{!-- Form to add a record to the table  --}}
+<h2>Adding items</h2>
+<p>To add an item, enter their info and click 'Submit'!</p>
+<form id="add-item-form-ajax">
+    <label for="input-item_name">Item Name: </label>
+    <input type="text" name="input-item_name" id="input-item_name" required>
+    
+     <label for="input-rg">Region: </label>
+        <select name="input-rg" id="input-rg">
+            <option value="4">North</option>
+            <option value="3">South</option>
+            <option value="1">West</option>
+            <option value="2">East</option>
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_item.js"></script>
 <a href="/">Home</a>

@@ -124,6 +124,44 @@ app.post('/add-player-ajax', function(req, res)
     })
 });
 
+//add item
+app.post('/add-item-ajax', function(req, res) 
+{
+    let data = req.body;
+    // Create the query and run it on the database
+    query1 = `INSERT INTO Items (item_name, regions_rg_id) VALUES ('${data.item_name}', '${data.regions_rg_id}')`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * 
+            query2 = `SELECT * FROM Items;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
 /*
     LISTENER
 */
