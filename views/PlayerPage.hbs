@@ -1,10 +1,10 @@
 <!-- PlayerPage.hbs -->
-{{!-- Create a table --}}
-<table>
-
+[ <a href="/">Home</a> | <a href="/players-page">Players</a> | <a href="/invts-page">Inventories</a> | <a href="/items-page">Items</a> | <a href="/monsters-page">Monsters</a> | <a href="/regions-page">Regions</a> ]
+<div id="browse" style="display: block">
+<p><strong>Browse Inventories</strong></p>
+<table id="player-table">
     {{!-- Header section --}}
     <thead>
-
         {{!-- For just the first row, we print each key of the row object as a header cell so we
         know what each column means when the page renders --}}
         <tr>
@@ -32,4 +32,74 @@
         {{/each}}
     </tbody>
 </table>
+</div> <!-- browse -->
+<!-- add players -->
+<div id="insert_plaeyrs" style="display: block">
+    {{!-- Form to add a record to the table  --}}
+    <h2>Add a new player</h2>
+    <p>To add a new person, please enter their information below and click 'Submit'!</p>
+    <form id="add-player-form-ajax">
+        <label for="input-name">Character Name: </label>
+        <input type="text" name="input-name" id="input-name" required>
+        
+        <label for="input-xp">XP: </label>
+        <input type="number" name="input-xp" id="input-xp" required>
+
+        <label for="input-lvl">Level: </label>
+        <input type="number" name="input-lvl" id="input-lvl" required>
+
+        <label for="input-rg">Region: </label>
+        <select name="input-rg" id="input-rg">
+            <option value="4">North</option>
+            <option value="3">South</option>
+            <option value="1">West</option>
+            <option value="2">East</option>
+        
+        <label for="input-invt">Inventory_inv_id</label>
+        <select name="input-invt" id="input-invt">
+            
+        </select>
+        <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_player.js"></script>
+</div>
+
+<p>&nbsp;</p>
+<div id="update" style="display: block">
+  <form id="updatePlanet">
+      <legend><strong>Update Player</strong></legend>
+          <fieldset class="fields">
+          <label>ID:</label> 1
+            <label> Name </label> <input type="text" value="Bart" name="name">
+            <label> XP </label> <input type="text"  name="XP" value="10000">
+            <label> Level </label> <input type="text" name="Level" value="10">
+            <label> Region </label> 
+                <select name="region" id="region">
+                    <option value =""> </option>
+                    <option value="North">North</option>
+                    <option value="South">South</option>
+                    <option value="West">West</option>
+                    <option value="East">East</option>
+                    </select>
+    </fieldset>
+    <input class="btn" type="submit" id="UpdateSavePlayer" value="Save Update Player">
+          <input class="btn" type="button" value="cancel" >
+  </form> 
+</div><!-- update -->
+<p>&nbsp;</p>
+<div id="delete" style="display: block">
+  <form id="deletePlanet">
+      <legend><strong>Delete Player</strong></legend>
+          <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <label>ID:</label> 1
+            <label> Name </label> Bart
+            
+    </fieldset>
+    <input class="btn" type="submit" id="DeletePlayer" value="Delete Player">
+          <input class="btn" type="button" value="cancel" >
+  </form> 
+</div><!-- delete -->
 <a href="/">Home</a>

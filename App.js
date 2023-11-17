@@ -37,7 +37,7 @@ Player Page
 */
 app.get('/players-page', function(req, res)
     {   
-        console.log('functions is passed through') //for debugging
+        //console.log('functions is passed through') //for debugging
         let query_player = "SELECT * FROM Players;";
         db.pool.query(query_player, function(error, rows, fields){
             res.render('PlayerPage', {data: rows, style:'players.css'});
@@ -89,6 +89,40 @@ app.get('/regions-page', function(req, res)
             res.render('RegionsPage', {data: rows, style: 'regions.css'});
         })  
     });
+
+/* POSTING FUNCTIONS  */
+//add players 
+app.post('/add-player-ajax', function(req, res)
+{
+    //capture the incoming data and parse it back to JS object
+    let data = req.body;
+    //Create the query and run it on the database
+    query1 = 'INSERT INTO Players (char_name, char_xp, char_lvl, regions_rg_id)'
+    db.pool.query(query1, function(error, rows, fields){
+        //check for errors
+        if (error){
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            //if there was no error, perform a SELECT *
+            query2 = "SELECT * FROM Players";
+            db.pool.query(query2, function(error, rows, fields){
+                if (error){
+                    //check for error
+                    console.log(error);
+                    res.sendStatues(400);
+                }
+                else
+                {
+                    res.send(rows);
+                }
+            }
+            )
+        }
+    })
+});
 
 /*
     LISTENER
