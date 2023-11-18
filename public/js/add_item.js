@@ -6,7 +6,7 @@ addPersonForm.addEventListener("submit", function (e) {
     
     // Prevent the form from submitting
     e.preventDefault();
-
+    debugger;
     // Get form fields we need to get data from
     let inputitemName = document.getElementById("input-item_name");
     let inputrg = document.getElementById("input-rg");
@@ -15,12 +15,16 @@ addPersonForm.addEventListener("submit", function (e) {
     let itemName = inputitemName.value;
     let rg_place = inputrg.value;
 
+    //console.log(inputitemName, inputrg); for debugging
+
     // Put our data we want to send in a javascript object
     let data = {
         item: itemName,
         rg: rg_place
     }
     
+    //console.log(data);
+
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/add-item-ajax", true);
@@ -46,7 +50,6 @@ addPersonForm.addEventListener("submit", function (e) {
     xhttp.send(JSON.stringify(data));
 
 })
-
 
 // Creates a single row from an Object representing a single record from 
 // bsg_people

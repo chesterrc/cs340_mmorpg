@@ -6,7 +6,7 @@
 //express
 var express = require('express');   // We are using the express library for the web server
 var app     = express();            
-PORT        = 5116;              
+PORT        = 5118;              
 //handlebars
 const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');     // Import express-handlebars
@@ -96,6 +96,7 @@ app.post('/add-player-ajax', function(req, res)
 {
     //capture the incoming data and parse it back to JS object
     let data = req.body;
+    //console.log(data)
     //Create the query and run it on the database
     query1 = 'INSERT INTO Players (char_name, char_xp, char_lvl, regions_rg_id)'
     db.pool.query(query1, function(error, rows, fields){
@@ -126,12 +127,14 @@ app.post('/add-player-ajax', function(req, res)
 
 //add item
 app.post('/add-item-ajax', function(req, res) 
-{
+{   
     let data = req.body;
+    console.log(req)
+    console.log("passed")
+    console.log(data)
     // Create the query and run it on the database
     query1 = `INSERT INTO Items (item_name, regions_rg_id) VALUES ('${data.item_name}', '${data.regions_rg_id}')`;
     db.pool.query(query1, function(error, rows, fields){
-
         // Check to see if there was an error
         if (error) {
 
