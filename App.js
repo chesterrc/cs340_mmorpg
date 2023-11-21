@@ -5,7 +5,6 @@
 */
 //express
 var express = require('express');   // We are using the express library for the web server
-var bodyParser = require('body-parser');
 
 var app     = express();            
 PORT        = 5118;              
@@ -16,6 +15,8 @@ app.engine('.hbs', engine({extname: ".hbs"}));
 app.set('view engine', '.hbs');                 
 
 //register css files for use in express
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'));      
 
 // Database
@@ -119,7 +120,7 @@ app.post('/add-player-ajax', function(req, res)
                 }
                 else
                 {
-                    res.send(rows);
+                    res.render('ItemsPage', {data: rows, style: 'items.css'});
                 }
             }
             )
@@ -131,12 +132,12 @@ app.post('/add-player-ajax', function(req, res)
 app.post('/add-item-ajax', function(req, res) 
 {   
     let data = req.body;
-    console.log("passed")
-    console.log(req);
+    //console.log(req);
     console.log(data);
+    console.log(data.item)
     //console.log(data.item_name, data.regions_rg_id);
     // Create the query and run it on the database
-    query1 = `INSERT INTO Items (item_name, regions_rg_id) VALUES ('${data.item_name}', '${data.regions_rg_id}')`;
+    query1 = `INSERT INTO Items (item_name, regions_rg_id) VALUES ('${data.item}', '${data.rg}')`;
     db.pool.query(query1, function(error, rows, fields){
         // Check to see if there was an error
         if (error) {
@@ -168,6 +169,37 @@ app.post('/add-item-ajax', function(req, res)
     })
 });
 
+/* DELETE ROUTES */
+app.delete('/delete-item-ajax/', function(req,res,next){
+    let data = req.body;
+    let personID = parseInt(data.id);
+    let deleteBsg_Cert_People = `DELETE FROM bsg_cert_people WHERE pid = ?`;
+    let deleteBsg_People= `DELETE FROM bsg_people WHERE id = ?`;
+  
+  
+          // Run the 1st query
+          db.pool.query(deleteBsg_Cert_People, [personID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+  
+              else
+              {
+                  // Run the second query
+                  db.pool.query(deleteBsg_People, [personID], function(error, rows, fields) {
+  
+                      if (error) {
+                          console.log(error);
+                          res.sendStatus(400);
+                      } else {
+                          res.sendStatus(204);
+                      }
+                  })
+              }
+  })});
 /*
     LISTENER
 */
