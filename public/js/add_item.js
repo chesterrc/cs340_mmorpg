@@ -6,7 +6,7 @@ addPersonForm.addEventListener("submit", function (e) {
     
     // Prevent the form from submitting
     e.preventDefault();
-    debugger;
+
     // Get form fields we need to get data from
     let inputitemName = document.getElementById("input-item_name");
     let inputrg = document.getElementById("input-rg");
@@ -15,16 +15,12 @@ addPersonForm.addEventListener("submit", function (e) {
     let itemName = inputitemName.value;
     let rg_place = inputrg.value;
 
-    //console.log(inputitemName, inputrg); for debugging
-
     // Put our data we want to send in a javascript object
     let data = {
         item: itemName,
         rg: rg_place
     }
-    
-    //console.log(data);
-
+    console.log(data);
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/add-item-ajax", true);
@@ -32,7 +28,7 @@ addPersonForm.addEventListener("submit", function (e) {
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
+        if (xhttp.readyState == 4 && xhttp.status == 204) {
 
             // Add the new data to the table
             addRowToTable(xhttp.response);
@@ -41,7 +37,7 @@ addPersonForm.addEventListener("submit", function (e) {
             inputitemName.value = '';
             inputrg.value = '';
         }
-        else if (xhttp.readyState == 4 && xhttp.status != 200) {
+        else if (xhttp.readyState == 4 && xhttp.status != 204) {
             console.log("There was an error with the input.")
         }
     }
@@ -56,7 +52,7 @@ addPersonForm.addEventListener("submit", function (e) {
 addRowToTable = (data) => {
 
     // Get a reference to the current table on the page and clear it out.
-    let currentTable = document.getElementById("items-table");
+    let currentTable = document.getElementById("items-tables");
 
     // Get the location where we should insert the new row (end of table)
     let newRowIndex = currentTable.rows.length;
@@ -65,7 +61,7 @@ addRowToTable = (data) => {
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1]
 
-    // Create a row and 4 cells
+    // Create a row and 3 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
     let ItemCell = document.createElement("TD");

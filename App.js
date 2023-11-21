@@ -5,6 +5,8 @@
 */
 //express
 var express = require('express');   // We are using the express library for the web server
+var bodyParser = require('body-parser');
+
 var app     = express();            
 PORT        = 5118;              
 //handlebars
@@ -129,9 +131,10 @@ app.post('/add-player-ajax', function(req, res)
 app.post('/add-item-ajax', function(req, res) 
 {   
     let data = req.body;
-    console.log(req)
     console.log("passed")
-    console.log(data)
+    console.log(req);
+    console.log(data);
+    //console.log(data.item_name, data.regions_rg_id);
     // Create the query and run it on the database
     query1 = `INSERT INTO Items (item_name, regions_rg_id) VALUES ('${data.item_name}', '${data.regions_rg_id}')`;
     db.pool.query(query1, function(error, rows, fields){
