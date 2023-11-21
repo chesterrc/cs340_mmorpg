@@ -14,11 +14,11 @@
     <tbody>
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
-        <tr>
+        <tr data-value={{this.id}}>
             <td>{{this.item_id}}</td>
             <td>{{this.item_name}}</td>
             <td>{{this.regions_rg_id}}</td>
-            <td><button onclick="delete({{this.id}})">Delete</button></td>
+            <td><button onclick="deleteItem({{this.id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
