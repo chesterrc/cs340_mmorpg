@@ -1,9 +1,10 @@
 function deleteItem(itemID) {
     // Put our data we want to send in a javascript object
     let data = {
-        id: itemID
+        id: itemID,
+        rows: []
     };
-
+    //console.log(data)
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("DELETE", "/delete-item-ajax", true);
@@ -28,7 +29,7 @@ function deleteItem(itemID) {
 
 function deleteRow(itemID){
 
-    let table = document.getElementById("people-table");
+    let table = document.getElementById("items-table");
     for (let i = 0, row; row = table.rows[i]; i++) {
        //iterate through rows
        //rows would be accessed using the "row" variable assigned in the for loop

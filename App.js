@@ -7,7 +7,7 @@
 var express = require('express');   // We are using the express library for the web server
 
 var app     = express();            
-PORT        = 5118;              
+PORT        = 5116;              
 //handlebars
 const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');     // Import express-handlebars
@@ -170,15 +170,17 @@ app.post('/add-item-ajax', function(req, res)
 });
 
 /* DELETE ROUTES */
-app.delete('/delete-item-ajax/', function(req,res,next){
+app.delete('/delete-item-ajax', function(req,res,next){
     let data = req.body;
-    let personID = parseInt(data.id);
-    let deleteBsg_Cert_People = `DELETE FROM bsg_cert_people WHERE pid = ?`;
-    let deleteBsg_People= `DELETE FROM bsg_people WHERE id = ?`;
+    console.log(data)
+    let itemID = parseInt(data.id);
+    console.log(itemID)
+    let delete_item_from_invent = `DELETE FROM Inventory WHERE items_item_id = ?`;
+    let delete_item = `DELETE FROM Items WHERE item_id = ?`;
   
   
           // Run the 1st query
-          db.pool.query(deleteBsg_Cert_People, [personID], function(error, rows, fields){
+          db.pool.query(delete_item_from_invent, [itemID], function(error, rows, fields){
               if (error) {
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -189,7 +191,7 @@ app.delete('/delete-item-ajax/', function(req,res,next){
               else
               {
                   // Run the second query
-                  db.pool.query(deleteBsg_People, [personID], function(error, rows, fields) {
+                  db.pool.query(delete_item, [itemID], function(error, rows, fields) {
   
                       if (error) {
                           console.log(error);
