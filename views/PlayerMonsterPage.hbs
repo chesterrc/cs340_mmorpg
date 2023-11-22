@@ -1,5 +1,5 @@
 {{!-- Create a table for inventory--}}
-<table id="invts-tables">
+<table id="playermonster-tables">
     {{!-- Header section --}}
     <thead>
         <tr>
@@ -15,9 +15,10 @@
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
         <tr>
-            <td>{{this.inv_id}}</td>
-            <td>{{this.inv_name}}</td>
-            <td>{{this.items_item_id}}</td>
+            <td>{{this.players_user_id}}</td>
+            <td>{{this.monsters_monster_id}}</td>
+            <td>{{this.monster_kill_count}}</td>
+            <td>{{this.xp_gained}}</td>
         </tr>
         {{/each}}
     </tbody>

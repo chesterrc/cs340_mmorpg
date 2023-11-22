@@ -7,7 +7,7 @@
 var express = require('express');   // We are using the express library for the web server
 
 var app     = express();            
-PORT        = 5116;              
+PORT        = 5118;              
 //handlebars
 const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');     // Import express-handlebars
@@ -30,10 +30,7 @@ app.get('/', function(req, res)
     {
         res.render('index', {style: 'index.css'})             // Note the call to render() and not send(). Using render() ensures the templating engine
     });                                      
-/* ***********************************
-    sytle sheets aren't accesible for all pages
-    -got to figure out how to incorporate styles to each one
-*/
+
 
 /*
 Player Page
@@ -47,16 +44,6 @@ app.get('/players-page', function(req, res)
         })  
     });
 
-/*
-Inventory Page
-*/
-app.get('/invts-page', function(req, res)
-    {
-        let query_invts = "SELECT * FROM Inventory;";
-        db.pool.query(query_invts, function(error, rows, fields){
-            res.render('InventoryPage', {data: rows, style: 'inventory.css'});
-        })  
-    });
 
 /*
 Items Page
@@ -64,9 +51,19 @@ Items Page
 app.get('/items-page', function(req, res)
     {
         let query_items = "SELECT * FROM Items;";
+        let query_regions = "SELECT * FROM Regions;";
+        let rgs
+        let itm
         db.pool.query(query_items, function(error, rows, fields){
-            res.render('ItemsPage', {data: rows, style: 'items.css'});
-        })  
+            itm = rows
+            console.log(itm)
+        }) 
+        db.pool.query(query_regions, function(error, rows, fields){
+            rgs = rows;
+        }) 
+        console.log(itm, rgs)
+        res.render('ItemsPage', {items: itm, regions: rgs, style: 'items.css'});
+
     });
 
 /*
@@ -76,7 +73,7 @@ app.get('/monsters-page', function(req, res)
     {
         let query_monsters = "SELECT * FROM Monsters;";
         db.pool.query(query_monsters, function(error, rows, fields){
-            console.log({data: rows})// debugging
+            //console.log({data: rows})// debugging
             res.render('MonsterPage', {data: rows, style:'monster.css'});
         })  
     });
@@ -88,8 +85,20 @@ app.get('/regions-page', function(req, res)
     {
         let query_regions = "SELECT * FROM Regions;";
         db.pool.query(query_regions, function(error, rows, fields){
-            console.log({data: rows});
+            //console.log({data: rows});
             res.render('RegionsPage', {data: rows, style: 'regions.css'});
+        })  
+    });
+
+/* 
+Player has Monsters Page 
+*/
+app.get('/PlayerMonster-page', function(req, res)
+    {
+        let query_regions = "SELECT * FROM Players_has_monsters;";
+        db.pool.query(query_regions, function(error, rows, fields){
+            //console.log({data: rows});
+            res.render('PlayerMonsterPage', {data: rows, style: 'playermonster.css'});
         })  
     });
 
@@ -180,7 +189,7 @@ app.delete('/delete-item-ajax', function(req,res,next){
   
   
           // Run the 1st query
-          db.pool.query(delete_item_from_invent, [itemID], function(error, rows, fields){
+          db.pool.query(delete_item, [itemID], function(error, rows, fields){
               if (error) {
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -191,7 +200,7 @@ app.delete('/delete-item-ajax', function(req,res,next){
               else
               {
                   // Run the second query
-                  db.pool.query(delete_item, [itemID], function(error, rows, fields) {
+                  db.pool.query(delete_item_from_invent, [itemID], function(error, rows, fields) {
   
                       if (error) {
                           console.log(error);
