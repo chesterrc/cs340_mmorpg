@@ -3,7 +3,7 @@
     {{!-- Header section --}}
     <thead>
         <tr>
-            {{#each items.[0]}}
+            {{#each data.[0]}}
             <th>
                 {{@key}}
             </th>
@@ -13,7 +13,7 @@
     {{!-- Body section --}}
     <tbody>
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each items}}
+        {{#each data}}
         <tr data-value={{this.item_id}}>
             <td>{{this.item_id}}</td>
             <td>{{this.item_name}}</td>
@@ -36,10 +36,9 @@
     
      <label for="input-rg">Region: </label>
         <select name="input-rg" id="input-rg">
-            <option value="4">North</option>
-            <option value="3">South</option>
-            <option value="1">West</option>
-            <option value="2">East</option>
+            {{#each region}}
+            <option value='{{this.rg_id}}'>{{this.rg_name}}</option>
+            {{/each}}
     <input type="submit">
 </form>
 

@@ -1,5 +1,5 @@
-{{!-- Create a table for player --}}
-<table id="players-tables">
+{{!-- Create a table for regions --}}
+<table id="regions-tables">
     {{!-- Header section --}}
     <thead>
         <tr>
@@ -14,11 +14,25 @@
     <tbody>
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
-        <tr>
+        <tr data-value={{this.rg_id}}>
             <td>{{this.rg_id}}</td>
             <td>{{this.rg_name}}</td>
+            <td><button onclick="deleteRegion('{{this.rg_id}}')">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+<script src="./js/delete_regions.js"></script>
+
+<h2>Adding Regions</h2>
+<p>To add a region, enter their info and click 'Submit'!</p>
+<form id="add-region-form-ajax">
+    <label for="input-region_name">Region Name: </label>
+    <input type="text" name="input-region_name" id="input-region_name" required>
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_regions.js"></script>
 <a href="/">Home</a>

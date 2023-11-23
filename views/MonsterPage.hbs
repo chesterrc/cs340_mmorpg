@@ -14,13 +14,35 @@
     <tbody>
         {{!-- This isn't working --}}
         {{#each data}}
-        <tr>
+        <tr data-value={{this.monster_id}}>
             <td>{{this.monster_id}}</td>
             <td>{{this.monster_name}}</td>
             <td>{{this.monster_lvl}}</td>
             <td>{{this.regions_rg_id}}</td>
+            <td><button onclick="deleteMonster('{{this.monster_id}}')">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+<script src="./js/delete_monster.js"></script>
+{{!-- Form to add a record to the table  --}}
+<h2>Adding Monsters</h2>
+<p>To add a Monster, enter their info and click 'Submit'!</p>
+<form id="add-monster-form-ajax">
+    <label for="input-monster_name">Monster name: </label>
+    <input type="text" name="input-monster_name" id="input-monster_name" required>
+    
+    <label for="input-monster_lvl">Monster level: </label>
+    <input type="number" name="input-monster_lvl" id="input-monster_lvl" required>
+    
+     <label for="input-rg">Region: </label>
+        <select name="input-rg" id="input-rg">
+            {{#each region}}
+            <option value='{{this.rg_id}}'>{{this.rg_name}}</option>
+            {{/each}}
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_monster.js"></script>
 <a href="/">Home</a>

@@ -21,85 +21,45 @@
 
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
-        <tr>
+        <tr data-value={{this.user_id}}>
             <td>{{this.user_id}}</td>
             <td>{{this.char_name}}</td>
             <td>{{this.char_xp}}</td>
             <td>{{this.char_lvl}}</td>
+            <td>{{this.char_inventory_items}}</td>
             <td>{{this.regions_rg_id}}</td>
-            <td>{{this.Inventory_inv_id}}</td>
+            <td><button onclick="deletePlayer('{{this.user_id}}')">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+<script src="./js/delete_player.js"></script>
 </div> <!-- browse -->
-<!-- add players -->
-<div id="insert_plaeyrs" style="display: block">
-    {{!-- Form to add a record to the table  --}}
-    <h2>Add a new player</h2>
-    <p>To add a new person, please enter their information below and click 'Submit'!</p>
-    <form id="add-player-form-ajax">
-        <label for="input-name">Character Name: </label>
-        <input type="text" name="input-name" id="input-name" required>
-        
-        <label for="input-xp">XP: </label>
-        <input type="number" name="input-xp" id="input-xp" required>
 
-        <label for="input-lvl">Level: </label>
-        <input type="number" name="input-lvl" id="input-lvl" required>
+{{!-- Form to add a record to the table  --}}
+<h2>Adding Players</h2>
+<p>To add a player, enter their info and click 'Submit'!</p>
+<form id="add-player-form-ajax">
+    <label for="input-char_name">Character Name: </label>
+    <input type="text" name="input-char_name" id="input-char_name" required>
+    
+    <label for="input-char_xp">XP: </label>
+    <input type="number" name="input-xp_name" id="input-xp" required>
+    
+    <label for="input-char_lvl">Level: </label>
+    <input type="number" name="input-level" id="input-level" required>
+    
+    <label for="input-invt_count">Inventory Count of Items: </label>
+    <input type="number" name="input-invt_count" id="input-invt_count" required>
 
-        <label for="input-rg">Region: </label>
+    <label for="input-rg">Region: </label>
         <select name="input-rg" id="input-rg">
-            <option value="4">North</option>
-            <option value="3">South</option>
-            <option value="1">West</option>
-            <option value="2">East</option>
-        
-        <label for="input-invt">Inventory_inv_id</label>
-        <select name="input-invt" id="input-invt">
-            
-        </select>
-        <input type="submit">
+            {{#each region}}
+            <option value='{{this.rg_id}}'>{{this.rg_name}}</option>
+            {{/each}}
+    <input type="submit">
 </form>
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_player.js"></script>
-</div>
-
-<p>&nbsp;</p>
-<div id="update" style="display: block">
-  <form id="updatePlanet">
-      <legend><strong>Update Player</strong></legend>
-          <fieldset class="fields">
-          <label>ID:</label> 1
-            <label> Name </label> <input type="text" value="Bart" name="name">
-            <label> XP </label> <input type="text"  name="XP" value="10000">
-            <label> Level </label> <input type="text" name="Level" value="10">
-            <label> Region </label> 
-                <select name="region" id="region">
-                    <option value =""> </option>
-                    <option value="North">North</option>
-                    <option value="South">South</option>
-                    <option value="West">West</option>
-                    <option value="East">East</option>
-                    </select>
-    </fieldset>
-    <input class="btn" type="submit" id="UpdateSavePlayer" value="Save Update Player">
-          <input class="btn" type="button" value="cancel" >
-  </form> 
-</div><!-- update -->
-<p>&nbsp;</p>
-<div id="delete" style="display: block">
-  <form id="deletePlanet">
-      <legend><strong>Delete Player</strong></legend>
-          <fieldset class="fields">
-          <p>Are you sure you wish to delete the following?</p>
-          <label>ID:</label> 1
-            <label> Name </label> Bart
-            
-    </fieldset>
-    <input class="btn" type="submit" id="DeletePlayer" value="Delete Player">
-          <input class="btn" type="button" value="cancel" >
-  </form> 
-</div><!-- delete -->
 <a href="/">Home</a>

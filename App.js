@@ -39,8 +39,14 @@ app.get('/players-page', function(req, res)
     {   
         //console.log('functions is passed through') //for debugging
         let query_player = "SELECT * FROM Players;";
+        let query_regions = "SELECT * FROM Regions;";
         db.pool.query(query_player, function(error, rows, fields){
-            res.render('PlayerPage', {data: rows, style:'players.css'});
+            let players = rows;
+            
+            db.pool.query(query_regions, function(error, rows, fields){
+                    let rgs = rows;
+                    res.render('PlayerPage', {data: players, region: rgs, style: 'players.css'});
+            }) 
         })  
     });
 
@@ -52,18 +58,15 @@ app.get('/items-page', function(req, res)
     {
         let query_items = "SELECT * FROM Items;";
         let query_regions = "SELECT * FROM Regions;";
-        let rgs
-        let itm
         db.pool.query(query_items, function(error, rows, fields){
-            itm = rows
-            console.log(itm)
+            
+            let items = rows;
+            
+            db.pool.query(query_regions, function(error, rows, fields){
+                    let rgs = rows;
+                    res.render('ItemsPage', {data: items, region: rgs, style: 'items.css'});
+            }) 
         }) 
-        db.pool.query(query_regions, function(error, rows, fields){
-            rgs = rows;
-        }) 
-        console.log(itm, rgs)
-        res.render('ItemsPage', {items: itm, regions: rgs, style: 'items.css'});
-
     });
 
 /*
@@ -72,9 +75,14 @@ monsters Page
 app.get('/monsters-page', function(req, res)
     {
         let query_monsters = "SELECT * FROM Monsters;";
+        let query_regions = "SELECT * FROM Regions;";
         db.pool.query(query_monsters, function(error, rows, fields){
-            //console.log({data: rows})// debugging
-            res.render('MonsterPage', {data: rows, style:'monster.css'});
+            let monsters = rows;
+
+            db.pool.query(query_regions, function(error, rows, fields){
+                let rgs = rows;
+                res.render('MonsterPage', {data: monsters, region: rgs, style: 'monster.css'});
+            }) 
         })  
     });
 
@@ -104,35 +112,40 @@ app.get('/PlayerMonster-page', function(req, res)
 
 /* POSTING FUNCTIONS  */
 //add players 
-app.post('/add-player-ajax', function(req, res)
-{
-    //capture the incoming data and parse it back to JS object
+app.post('/add-player-ajax', function(req, res) 
+{   
     let data = req.body;
-    //console.log(data)
-    //Create the query and run it on the database
-    query1 = 'INSERT INTO Players (char_name, char_xp, char_lvl, regions_rg_id)'
+    // Create the query and run it on the database
+    query1 = `INSERT INTO Players (char_name, char_xp, char_lvl, char_inventory_items, regions_rg_id) VALUES ('${data.char_name}', '${data.xp_name}', '${data.char_lvl}', '${data.invt_count}', '${data.rg}')`;
     db.pool.query(query1, function(error, rows, fields){
-        //check for errors
-        if (error){
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error)
             res.sendStatus(400);
         }
         else
         {
-            //if there was no error, perform a SELECT *
-            query2 = "SELECT * FROM Players";
+            // If there was no error, perform a SELECT * 
+            query2 = `SELECT * FROM Players;`;
             db.pool.query(query2, function(error, rows, fields){
-                if (error){
-                    //check for error
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
                     console.log(error);
-                    res.sendStatues(400);
+                    res.sendStatus(400);
+                    
                 }
+                // If all went well, send the results of the query back.
                 else
                 {
-                    res.render('ItemsPage', {data: rows, style: 'items.css'});
+                    res.status(204).send(rows);
+                    
                 }
-            }
-            )
+            })
         }
     })
 });
@@ -141,10 +154,6 @@ app.post('/add-player-ajax', function(req, res)
 app.post('/add-item-ajax', function(req, res) 
 {   
     let data = req.body;
-    //console.log(req);
-    console.log(data);
-    console.log(data.item)
-    //console.log(data.item_name, data.regions_rg_id);
     // Create the query and run it on the database
     query1 = `INSERT INTO Items (item_name, regions_rg_id) VALUES ('${data.item}', '${data.rg}')`;
     db.pool.query(query1, function(error, rows, fields){
@@ -167,24 +176,129 @@ app.post('/add-item-ajax', function(req, res)
                     // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
                     console.log(error);
                     res.sendStatus(400);
+                    
                 }
                 // If all went well, send the results of the query back.
                 else
                 {
-                    res.send(rows);
+                    res.status(204).send(rows);
+                    
                 }
             })
         }
     })
 });
 
+
+//add monster
+app.post('/add-monster-ajax', function(req, res) 
+{   
+    let data = req.body;
+    // Create the query and run it on the database
+    query1 = `INSERT INTO Monsters (monster_name, monster_lvl, regions_rg_id) VALUES ('${data.monster_name}', '${data.monster_lvl}', '${data.rg}')`;
+    db.pool.query(query1, function(error, rows, fields){
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * 
+            query2 = `SELECT * FROM Monsters;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                    
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.status(204).send(rows);
+                    
+                }
+            })
+        }
+    })
+});
+
+//add region
+app.post('/add-region-ajax', function(req, res) 
+{   
+    let data = req.body;
+    // Create the query and run it on the database
+    query1 = `INSERT INTO Regions (rg_name) VALUES ('${data.rg}')`;
+    db.pool.query(query1, function(error, rows, fields){
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * 
+            query2 = `SELECT * FROM Regions;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                    
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.status(204).send(rows);
+                    
+                }
+            })
+        }
+    })
+});
+
+
 /* DELETE ROUTES */
+
+//delete player
+//delete monster
+app.delete('/delete-player-ajax', function(req,res,next){
+    let data = req.body;
+    console.log(data)
+    let userID = parseInt(data.id);
+    //console.log(monsterID); debug
+    let delete_item = `DELETE FROM Players WHERE user_id = ?`;
+  
+  
+          // Run the 1st query
+          db.pool.query(delete_item, [userID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(204);
+              }
+
+})});
+
+
+//delete item
 app.delete('/delete-item-ajax', function(req,res,next){
     let data = req.body;
     console.log(data)
     let itemID = parseInt(data.id);
-    console.log(itemID)
-    let delete_item_from_invent = `DELETE FROM Inventory WHERE items_item_id = ?`;
+    console.log(itemID); 
     let delete_item = `DELETE FROM Items WHERE item_id = ?`;
   
   
@@ -194,23 +308,50 @@ app.delete('/delete-item-ajax', function(req,res,next){
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
               console.log(error);
-              res.sendStatus(400);
+              res.sendStatus(204);
               }
-  
-              else
-              {
-                  // Run the second query
-                  db.pool.query(delete_item_from_invent, [itemID], function(error, rows, fields) {
-  
-                      if (error) {
-                          console.log(error);
-                          res.sendStatus(400);
-                      } else {
-                          res.sendStatus(204);
-                      }
-                  })
-              }
+
   })});
+
+  //delete monster
+app.delete('/delete-monster-ajax', function(req,res,next){
+    let data = req.body;
+    console.log(data)
+    let itemID = parseInt(data.id);
+    //console.log(monsterID); debug
+    let delete_item = `DELETE FROM Monsters WHERE monster_id = ?`;
+  
+  
+          // Run the 1st query
+          db.pool.query(delete_item, [itemID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(204);
+              }
+
+  })});
+
+//delete Regions
+app.delete('/delete-region-ajax', function(req,res,next){
+    let data = req.body;
+    console.log(data)
+    let rgID = parseInt(data.id);
+    //console.log(monsterID); debug
+    let delete_item = `DELETE FROM Regions WHERE rg_id = ?`;
+  
+          // Run the 1st query
+          db.pool.query(delete_item, [rgID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(204);
+              }
+
+  })});
+  //
 /*
     LISTENER
 */

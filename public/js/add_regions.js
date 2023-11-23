@@ -1,28 +1,25 @@
 // Get the objects we need to modify
-let addPersonForm = document.getElementById('add-item-form-ajax');
+let addRegionForm = document.getElementById('add-region-form-ajax');
 
 // Modify the objects we need
-addPersonForm.addEventListener("submit", function (e) {
+addRegionForm.addEventListener("submit", function (e) {
     
     // Prevent the form from submitting
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputitemName = document.getElementById("input-item_name");
-    let inputrg = document.getElementById("input-rg");
+    let inputRegionname = document.getElementById("input-region_name");
 
     // Get the values from the form fields
-    let itemName = inputitemName.value;
-    let rg_place = inputrg.value;
+    let rg_name = inputRegionname.value;
 
     // Put our data we want to send in a javascript object
     let data = {
-        item: itemName,
-        rg: rg_place
+        rg: rg_name
     }
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/add-item-ajax", true);
+    xhttp.open("POST", "/add-region-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
@@ -40,7 +37,6 @@ addPersonForm.addEventListener("submit", function (e) {
             inputitemName.value = '';
             inputrg.value = '';
 
-            location.reload();
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
             console.log("There was an error with the input.")
@@ -57,7 +53,7 @@ addPersonForm.addEventListener("submit", function (e) {
 addRowToTable = (data) => {
     console.log(data);
     // Get a reference to the current table on the page and clear it out.
-    let currentTable = document.getElementById("items-tables");
+    let currentTable = document.getElementById("regions-tables");
 
     // Get the location where we should insert the new row (end of table)
     let newRowIndex = currentTable.rows.length;
@@ -69,26 +65,21 @@ addRowToTable = (data) => {
     // Create a row and 3 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
-    let ItemCell = document.createElement("TD");
     let rgCell = document.createElement("TD");
-    let deleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
     idCell.innerText = newRow.id;
-    ItemCell.innerText = newRow.fname;
-    rgCell.innerText = newRow.lname;
+    rgCell.innerText = newRow.fname;
 
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function(){
-        deletePerson(newRow.id);
+        deleteRegion(newRow.id);
     };
 
     // Add the cells to the row 
     row.appendChild(idCell);
-    row.appendChild(ItemCell);
     row.appendChild(rgCell);
-    row.appendChild(deleteCell);
 
     // Add a row attribute so the deleteRow function can find a newly added row
     row.setAttribute('data-value', newRow.id);

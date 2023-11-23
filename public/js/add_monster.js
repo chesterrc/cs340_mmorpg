@@ -1,5 +1,5 @@
 // Get the objects we need to modify
-let addPersonForm = document.getElementById('add-item-form-ajax');
+let addPersonForm = document.getElementById('add-monster-form-ajax');
 
 // Modify the objects we need
 addPersonForm.addEventListener("submit", function (e) {
@@ -8,21 +8,24 @@ addPersonForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputitemName = document.getElementById("input-item_name");
+    let inputMonsterName = document.getElementById("input-monster_name");
+    let inputMonsterlvl = document.getElementById("input-monster_lvl");
     let inputrg = document.getElementById("input-rg");
 
     // Get the values from the form fields
-    let itemName = inputitemName.value;
+    let MonsterName = inputMonsterName.value;
+    let Monsterlvl = inputMonsterlvl.value;
     let rg_place = inputrg.value;
 
     // Put our data we want to send in a javascript object
     let data = {
-        item: itemName,
+        monster_name: MonsterName,
+        monster_lvl: Monsterlvl,
         rg: rg_place
     }
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/add-item-ajax", true);
+    xhttp.open("POST", "/add-monster-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
@@ -37,10 +40,9 @@ addPersonForm.addEventListener("submit", function (e) {
             addRowToTable(xhttp.response);
                 
             // Clear the input fields for another transaction
-            inputitemName.value = '';
+            inputMonsterName.value = '';
+            inputMonsterlvl.value = '';
             inputrg.value = '';
-
-            location.reload();
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
             console.log("There was an error with the input.")
@@ -57,7 +59,7 @@ addPersonForm.addEventListener("submit", function (e) {
 addRowToTable = (data) => {
     console.log(data);
     // Get a reference to the current table on the page and clear it out.
-    let currentTable = document.getElementById("items-tables");
+    let currentTable = document.getElementById("monsters-tables");
 
     // Get the location where we should insert the new row (end of table)
     let newRowIndex = currentTable.rows.length;
@@ -69,13 +71,15 @@ addRowToTable = (data) => {
     // Create a row and 3 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
-    let ItemCell = document.createElement("TD");
+    let MonsterNameCell = document.createElement("TD");
+    let MonsterlvlCell = document.createElement("TD");
     let rgCell = document.createElement("TD");
     let deleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
     idCell.innerText = newRow.id;
-    ItemCell.innerText = newRow.fname;
+    MonsterNameCell.innerText = newRow.fname;
+    MonsterlvlCell.innerText = newRow.fname;
     rgCell.innerText = newRow.lname;
 
     deleteCell = document.createElement("button");
@@ -86,7 +90,8 @@ addRowToTable = (data) => {
 
     // Add the cells to the row 
     row.appendChild(idCell);
-    row.appendChild(ItemCell);
+    row.appendChild(MonsterNameCell);
+    row.appendChild(MonsterlvlCell);
     row.appendChild(rgCell);
     row.appendChild(deleteCell);
 
