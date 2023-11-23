@@ -55,3 +55,14 @@ function deleteRow(monsterId){
     }
     console.log("No row found with the provided monsterId:", monsterId); // For debugging
 }
+
+function deleteDropDownMenu(monsterID){
+    let selectMenu = document.getElementById("mySelect-monster_name");
+    for (let i = 0; i < selectMenu.length; i++){
+      if (Number(selectMenu.options[i].value) === Number(monsterID)){
+        selectMenu[i].remove();
+        break;
+      } 
+  
+    }
+  }

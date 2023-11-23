@@ -1,5 +1,5 @@
 // Get the objects we need to modify
-let updateRegionForm = document.getElementById('update-region-form-ajax');
+let updateRegionForm = document.getElementById('update-item-form-ajax');
 
 // Modify the objects we need
 updateRegionForm.addEventListener("submit", function (e) {

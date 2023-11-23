@@ -72,4 +72,40 @@
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_player.js"></script>
+
+
+<h2>Updating Items Form</h2>
+<p>To update an item's region select the region</p>
+<form id="update-player-form-ajax">
+
+    <label for="input-player_name">Item name: </label>
+    <select name="input-player_name" id="mySelect-player_name">
+        <option value="test">Select an Player</option>
+        {{#each data}}
+        <option value="{{this.user_id}}">{{this.char_name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="update-char_xp">Character XP:</label>
+    <input type="number" name="update-char_xp" id="input-update-xp">
+
+    <label for="update-char-lvl">Character level:</label>
+    <input type="number" name="update-char-lvl" id="input-update-lvl">
+    
+    <label for="update-char-itemcount">Character level:</label>
+    <input type="number" name="update-char-itemcount" id="input-update-itemcount">
+
+    <label for="input-region">Region: </label>
+    <select name="input-region" id="input-region-update">
+        <option>Select a Region</option>
+        {{#each region}}
+        <option value="{{this.rg_id}}">{{this.rg_name}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_region.js"></script>
+
 <a href="/">Home</a>

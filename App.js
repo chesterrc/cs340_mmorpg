@@ -298,7 +298,6 @@ app.post('/add-region-ajax', function(req, res)
 /* DELETE ROUTES */
 
 //delete player
-//delete monster
 app.delete('/delete-player-ajax', function(req,res,next){
     let data = req.body;
     console.log(data)
@@ -389,12 +388,47 @@ app.put('/put-item-ajax', function(req,res,next){
   
     let item = parseInt(data.itemname);
     let region = parseInt(data.region);
-    console.log(data);
+    //console.log(data);
     let queryUpdateItem = `UPDATE Items SET regions_rg_id = ? WHERE item_id = ?`;
     let selectrg = `SELECT * FROM Regions WHERE rg_id = ?`
   
           // Run the 1st query
           db.pool.query(queryUpdateItem, [region, item], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error 
+              console.log(error);
+              res.sendStatus(400);
+              }
+  
+              // If there was no error, we run  second query and return data to frontend
+              else
+              {
+                  // Run the second query
+                  db.pool.query(selectrg, [region], function(error, rows, fields) {
+  
+                      if (error) {
+                          console.log(error);
+                          res.sendStatus(400);
+                      } else {
+                          res.status(204).send(rows);
+                      }
+                  })
+              }
+  })});
+
+  //monster
+  app.put('/put-monster-ajax', function(req,res,next){
+    let data = req.body;
+  
+    let monster = parseInt(data.monster);
+    let region = parseInt(data.region);
+    //console.log(data);
+    let queryUpdatemonster = `UPDATE Monsters regions_rg_id = ? WHERE monster_id = ?`;
+    let selectrg = `SELECT * FROM Regions WHERE rg_id = ?`
+  
+          // Run the 1st query
+          db.pool.query(queryUpdatemonster, [region, monster], function(error, rows, fields){
               if (error) {
   
               // Log the error 

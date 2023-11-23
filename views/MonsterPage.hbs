@@ -55,4 +55,31 @@
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_monster.js"></script>
+
+{{!-- update monster --}}
+<h2>Updating Monster Form</h2>
+<p>To update an monster's region select the region</p>
+<form id="update-monster-form-ajax">
+
+    <label for="input-monster_name">Monster name: </label>
+    <select name="input-monster_name" id="mySelect-monster_name">
+        <option value="test">Select a Monster</option>
+        {{#each data}}
+        <option value="{{this.monster_id}}">{{this.monster_name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-region">Region: </label>
+    <select name="input-region" id="input-region-update">
+        <option>Select a Region</option>
+        {{#each region}}
+        <option value="{{this.rg_id}}">{{this.rg_name}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_region.js"></script>
+
 <a href="/">Home</a>
