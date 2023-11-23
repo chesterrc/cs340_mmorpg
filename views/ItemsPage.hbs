@@ -1,3 +1,15 @@
+<a href="/">Home</a>
+
+{{!-- Search bar --}}
+<h2> Item Search </h2>
+<form id="search-item-html" method="GET" action="/items-page">
+    <label for = "input-item_name">Search by Item Name:</label>
+    <input type="text" name="item_name" id="input-search-item_name"/>
+
+    <input type="submit"/>
+    <a href="/items-page"><button>Reset</button></a>
+</form>
+
 {{!-- Create a table for items --}}
 <table id="items-tables">
     {{!-- Header section --}}
@@ -42,6 +54,32 @@
     <input type="submit">
 </form>
 
-{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+{{!-- Embed javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_item.js"></script>
-<a href="/">Home</a>
+
+<h2>Updating Items Form</h2>
+<p>To update an item's region select the region</p>
+<form id="update-region-form-ajax">
+
+    <label for="input-item_name">Item name: </label>
+    <select name="input-item_name" id="mySelect-item_name">
+        <option value="test">Select an Item</option>
+        {{#each data}}
+        <option value="{{this.item_id}}">{{this.item_name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-region">Region: </label>
+    <select name="input-region" id="input-region-update">
+        <option>Select a Region</option>
+        {{#each region}}
+        <option value="{{this.rg_id}}">{{this.rg_name}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_region.js"></script>
+
+

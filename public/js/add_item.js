@@ -65,7 +65,8 @@ addRowToTable = (data) => {
     // Get a reference to the new row from the database query (last object)
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1] 
-    console.log(parsedData);
+    
+    console.log(parsedData); //debuggings
     // Create a row and 3 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
@@ -75,13 +76,13 @@ addRowToTable = (data) => {
 
     // Fill the cells with correct data
     idCell.innerText = newRow.id;
-    ItemCell.innerText = newRow.fname;
-    rgCell.innerText = newRow.lname;
+    ItemCell.innerText = newRow.item_name;
+    rgCell.innerText = newRow.rg_name;
 
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function(){
-        deletePerson(newRow.id);
+        deleteItem(newRow.id);
     };
 
     // Add the cells to the row 
@@ -95,4 +96,13 @@ addRowToTable = (data) => {
     
     // Add the row to the table
     currentTable.appendChild(row);
+
+    // Find drop down menu, create a new option, fill data in the option (full name, id),
+    // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
+    let selectMenu = document.getElementById("mySelect-item_name");
+    let option = document.createElement("option");
+    option.text = newRow.item_name;
+    option.value = newRow.id;
+    selectMenu.add(option);
+    // End of new step 8 code.
 }

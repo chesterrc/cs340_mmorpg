@@ -34,8 +34,7 @@ addRegionForm.addEventListener("submit", function (e) {
             addRowToTable(xhttp.response);
                 
             // Clear the input fields for another transaction
-            inputitemName.value = '';
-            inputrg.value = '';
+            inputRegionname.value = '';
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {

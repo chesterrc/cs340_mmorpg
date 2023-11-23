@@ -55,3 +55,14 @@ function deleteRow(itemID){
     }
     console.log("No row found with the provided itemID:", itemID); // For debugging
 }
+
+function deleteDropDownMenu(itemID){
+    let selectMenu = document.getElementById("mySelect-item_name");
+    for (let i = 0; i < selectMenu.length; i++){
+      if (Number(selectMenu.options[i].value) === Number(itemID)){
+        selectMenu[i].remove();
+        break;
+      } 
+  
+    }
+  }

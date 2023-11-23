@@ -1,3 +1,13 @@
+{{!-- Search bar --}}
+<h2> Item Search </h2>
+<form id="search-monster-html" method="GET" action="/monsters-page">
+    <label for = "input-monster_name">Search by Monster Name:</label>
+    <input type="text" name="monster_name" id="input-search-monster_name"/>
+
+    <input type="submit"/>
+    <a href="/monsters-page"><button>Reset</button></a>
+</form>
+
 {{!-- Create a table for monster --}}
 <table id="monsters-tables">
     {{!-- Header section --}}

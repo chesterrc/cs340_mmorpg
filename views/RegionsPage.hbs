@@ -1,3 +1,13 @@
+{{!-- Search bar --}}
+<h2> Regions Search </h2>
+<form id="search-regions-html" method="GET" action="/regions-page">
+    <label for = "input-region_name">Search by Region Name:</label>
+    <input type="text" name="region_name" id="input-search-region_name"/>
+
+    <input type="submit"/>
+    <a href="/regions-page"><button>Reset</button></a>
+</form>
+
 {{!-- Create a table for regions --}}
 <table id="regions-tables">
     {{!-- Header section --}}

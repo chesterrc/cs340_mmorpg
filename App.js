@@ -38,8 +38,15 @@ Player Page
 app.get('/players-page', function(req, res)
     {   
         //console.log('functions is passed through') //for debugging
-        let query_player = "SELECT * FROM Players;";
+        let query_player;
         let query_regions = "SELECT * FROM Regions;";
+        console.log(req.query.player_name);
+        if (req.query.player_name === undefined || req.query.player_name === ''){
+            query_player = "SELECT * FROM Players;";
+        }
+        else{
+            query_player = `SELECT * FROM Players WHERE char_name = "${req.query.player_name}";`;
+        }
         db.pool.query(query_player, function(error, rows, fields){
             let players = rows;
             
@@ -56,15 +63,21 @@ Items Page
 */
 app.get('/items-page', function(req, res)
     {
-        let query_items = "SELECT * FROM Items;";
+        let query_items;
         let query_regions = "SELECT * FROM Regions;";
+        if (req.query.item_name === undefined || req.query.item_name === ''){
+            query_items = "SELECT * FROM Items;";
+        }
+        else{
+            query_items = `SELECT * FROM Items WHERE item_name = "${req.query.item_name}";`;
+        }
         db.pool.query(query_items, function(error, rows, fields){
             
             let items = rows;
             
             db.pool.query(query_regions, function(error, rows, fields){
                     let rgs = rows;
-                    res.render('ItemsPage', {data: items, region: rgs, style: 'items.css'});
+                    return res.render('ItemsPage', {data: items, region: rgs, style: 'items.css'});
             }) 
         }) 
     });
@@ -74,8 +87,14 @@ monsters Page
 */
 app.get('/monsters-page', function(req, res)
     {
-        let query_monsters = "SELECT * FROM Monsters;";
+        let query_monsters;
         let query_regions = "SELECT * FROM Regions;";
+        if (req.query.monster_name === undefined || req.query.monster_name === ''){
+            query_monsters = "SELECT * FROM Items;";
+        }
+        else{
+            query_monsters = `SELECT * FROM Monsters WHERE monster_name = "${req.query.monster_name}";`;
+        }
         db.pool.query(query_monsters, function(error, rows, fields){
             let monsters = rows;
 
@@ -91,7 +110,13 @@ Regions Page
 */
 app.get('/regions-page', function(req, res)
     {
-        let query_regions = "SELECT * FROM Regions;";
+        let query_regions;
+        if (req.query.region === undefined || req.query.region === ''){
+            query_regions = "SELECT * FROM Regions;";
+        }
+        else{
+            query_regions = `SELECT * FROM Regions WHERE rg_name = "${req.query.region}";`;
+        }
         db.pool.query(query_regions, function(error, rows, fields){
             //console.log({data: rows});
             res.render('RegionsPage', {data: rows, style: 'regions.css'});
@@ -100,6 +125,7 @@ app.get('/regions-page', function(req, res)
 
 /* 
 Player has Monsters Page 
+This is incomplete need to add other attributes
 */
 app.get('/PlayerMonster-page', function(req, res)
     {
@@ -352,6 +378,46 @@ app.delete('/delete-region-ajax', function(req,res,next){
 
   })});
   //
+
+/*
+UPDATE FUNCTIONS
+*/ 
+
+//items
+app.put('/put-item-ajax', function(req,res,next){
+    let data = req.body;
+  
+    let item = parseInt(data.itemname);
+    let region = parseInt(data.region);
+    console.log(data);
+    let queryUpdateItem = `UPDATE Items SET regions_rg_id = ? WHERE item_id = ?`;
+    let selectrg = `SELECT * FROM Regions WHERE rg_id = ?`
+  
+          // Run the 1st query
+          db.pool.query(queryUpdateItem, [region, item], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error 
+              console.log(error);
+              res.sendStatus(400);
+              }
+  
+              // If there was no error, we run  second query and return data to frontend
+              else
+              {
+                  // Run the second query
+                  db.pool.query(selectrg, [region], function(error, rows, fields) {
+  
+                      if (error) {
+                          console.log(error);
+                          res.sendStatus(400);
+                      } else {
+                          res.status(204).send(rows);
+                      }
+                  })
+              }
+  })});
+
 /*
     LISTENER
 */

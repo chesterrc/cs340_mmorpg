@@ -1,3 +1,13 @@
+{{!-- Search bar --}}
+<h2> Player Search </h2>
+<form id="search-player-html" method="GET" action="/players-page">
+    <label for = "input-player_name">Search by Character Name:</label>
+    <input type="text" name="player_name" id="input-search-player_name"/>
+
+    <input type="submit"/>
+    <a href="/players-page"><button>Reset</button></a>
+</form>
+
 <!-- PlayerPage.hbs -->
 [ <a href="/">Home</a> | <a href="/players-page">Players</a> | <a href="/invts-page">Inventories</a> | <a href="/items-page">Items</a> | <a href="/monsters-page">Monsters</a> | <a href="/regions-page">Regions</a> ]
 <div id="browse" style="display: block">
