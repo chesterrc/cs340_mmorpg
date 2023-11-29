@@ -381,6 +381,43 @@ app.delete('/delete-region-ajax', function(req,res,next){
 /*
 UPDATE FUNCTIONS
 */ 
+//player
+app.put('/put-player-ajax', function(req,res,next){
+    let data = req.body;
+  
+    let char = parseInt(data.user);
+    let xp = parseInt(data.exp);
+    let level = parseInt(data.level);
+    let itemcount = parseInt(data.itemcount);
+    let region = parseInt(data.region);
+    console.log(data);
+    let queryUpdatepplayer = `UPDATE Players SET char_xp = ?, char_lvl = ?, char_inventory_items = ?, regions_rg_id = ? WHERE user_id = ?;`;
+    let selectrg = `SELECT * FROM Regions WHERE rg_id = ?`
+  
+          // Run the 1st query
+          db.pool.query(queryUpdatepplayer, [xp, level, itemcount, region, char], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error 
+              console.log(error);
+              res.sendStatus(400);
+              }
+  
+              // If there was no error, we run  second query and return data to frontend
+              else
+              {
+                  // Run the second query
+                  db.pool.query(selectrg, [region], function(error, rows, fields) {
+  
+                      if (error) {
+                          console.log(error);
+                          res.sendStatus(400);
+                      } else {
+                          res.status(204).send(rows);
+                      }
+                  })
+              }
+  })});
 
 //items
 app.put('/put-item-ajax', function(req,res,next){

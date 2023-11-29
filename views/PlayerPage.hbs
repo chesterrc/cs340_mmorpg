@@ -74,13 +74,13 @@
 <script src="./js/add_player.js"></script>
 
 
-<h2>Updating Items Form</h2>
-<p>To update an item's region select the region</p>
+<h2>Updating Player Form</h2>
+<p>To update a player</p>
 <form id="update-player-form-ajax">
 
-    <label for="input-player_name">Item name: </label>
+    <label for="input-player_name">Player name: </label>
     <select name="input-player_name" id="mySelect-player_name">
-        <option value="test">Select an Player</option>
+        <option value="test">Select a Player</option>
         {{#each data}}
         <option value="{{this.user_id}}">{{this.char_name}}</option>
         {{/each}}
@@ -92,8 +92,8 @@
     <label for="update-char-lvl">Character level:</label>
     <input type="number" name="update-char-lvl" id="input-update-lvl">
     
-    <label for="update-char-itemcount">Character level:</label>
-    <input type="number" name="update-char-itemcount" id="input-update-itemcount">
+    <label for="update-char-itemcount">Count of Items in Inventory:</label>
+    <input type="number" name="update-char-itemcount" id="input-update-itmcount">
 
     <label for="input-region">Region: </label>
     <select name="input-region" id="input-region-update">
@@ -106,6 +106,6 @@
 
 </form>
 
-<script src="./js/update_region.js"></script>
+<script src="./js/update_player.js"></script>
 
 <a href="/">Home</a>
