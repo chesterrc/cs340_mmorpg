@@ -1,5 +1,17 @@
+<nav id="navbar">
+    <ul>
+        <li>
+            <a href="/players-page">Players</a>
+            <a href="/PlayerMonster-page">Player to Monster Kills</a>
+            <a href="/regions-page">Regions</a>
+            <a href="/monsters-page">Monsters</a>
+            <a href="/items-page">Items</a>
+        </li>
+    </ul>
+</nav>
+
 {{!-- Search bar --}}
-<h2> Item Search </h2>
+<h2> Monster Search </h2>
 <form id="search-monster-html" method="GET" action="/monsters-page">
     <label for = "input-monster_name">Search by Monster Name:</label>
     <input type="text" name="monster_name" id="input-search-monster_name"/>
@@ -9,30 +21,32 @@
 </form>
 
 {{!-- Create a table for monster --}}
-<table id="monsters-tables">
-    {{!-- Header section --}}
-    <thead>
-        <tr>
-            <th>Monster Id</th>
-            <th>Name</th>
-            <th>Level</th>
-            <th>Region</th>
-        </tr>
-    </thead>
-    {{!-- Body section --}}
-    <tbody>
-        {{!-- Figure out how to make region names appear instead of number --}}
-        {{#each data}}
-        <tr data-value={{this.monster_id}}>
-            <td>{{this.monster_id}}</td>
-            <td>{{this.monster_name}}</td>
-            <td>{{this.monster_lvl}}</td>
-            <td>{{this.regions_rg_id}}</td>
-            <td><button onclick="deleteMonster('{{this.monster_id}}')">Delete</button></td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+<div id='monster-table-container'>
+    <table id="monsters-tables">
+        {{!-- Header section --}}
+        <thead id="monster-table-header">
+            <tr>
+                <th>Monster Id</th>
+                <th>Name</th>
+                <th>Level</th>
+                <th>Region</th>
+            </tr>
+        </thead>
+        {{!-- Body section --}}
+        <tbody>
+            {{!-- Figure out how to make region names appear instead of number --}}
+            {{#each data}}
+            <tr data-value={{this.monster_id}}>
+                <td>{{this.monster_id}}</td>
+                <td>{{this.monster_name}}</td>
+                <td>{{this.monster_lvl}}</td>
+                <td>{{this.regions_rg_id}}</td>
+                <td><button onclick="deleteMonster('{{this.monster_id}}')">Delete</button></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 <script src="./js/delete_monster.js"></script>
 {{!-- Form to add a record to the table  --}}
 <h2>Adding Monsters</h2>

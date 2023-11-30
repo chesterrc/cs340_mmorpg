@@ -31,6 +31,10 @@ nav a {
     transition: background-color 0.3s ease;
 }
 
+nav ul{
+    list-style-type: none;
+}
+
 nav a:hover {
     background-color: #bdb1b1;
 }
