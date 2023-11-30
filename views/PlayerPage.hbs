@@ -1,3 +1,7 @@
+<!-- PlayerPage.hbs -->
+[ <a href="/">Home</a> | <a href="/players-page">Players</a> | <a href="/invts-page">Inventories</a> | <a href="/items-page">Items</a> | <a href="/monsters-page">Monsters</a> | <a href="/regions-page">Regions</a> ]
+<div id="browse" style="display: block">
+<p><strong>Browse Inventories</strong></p>
 {{!-- Search bar --}}
 <h2> Player Search </h2>
 <form id="search-player-html" method="GET" action="/players-page">
@@ -7,22 +11,18 @@
     <input type="submit"/>
     <a href="/players-page"><button>Reset</button></a>
 </form>
-
-<!-- PlayerPage.hbs -->
-[ <a href="/">Home</a> | <a href="/players-page">Players</a> | <a href="/invts-page">Inventories</a> | <a href="/items-page">Items</a> | <a href="/monsters-page">Monsters</a> | <a href="/regions-page">Regions</a> ]
-<div id="browse" style="display: block">
-<p><strong>Browse Inventories</strong></p>
 <table id="player-table">
     {{!-- Header section --}}
     <thead>
         {{!-- For just the first row, we print each key of the row object as a header cell so we
         know what each column means when the page renders --}}
         <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>Id</th>
+            <th>Name</th>
+            <th>XP</th>
+            <th>Level</th>
+            <th>Special Item</th>
+            <th>Region</th>
         </tr>
     </thead>
 

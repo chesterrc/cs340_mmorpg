@@ -13,16 +13,15 @@
     {{!-- Header section --}}
     <thead>
         <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>Monster Id</th>
+            <th>Name</th>
+            <th>Level</th>
+            <th>Region</th>
         </tr>
     </thead>
     {{!-- Body section --}}
     <tbody>
-        {{!-- This isn't working --}}
+        {{!-- Figure out how to make region names appear instead of number --}}
         {{#each data}}
         <tr data-value={{this.monster_id}}>
             <td>{{this.monster_id}}</td>
@@ -80,6 +79,6 @@
 
 </form>
 
-<script src="./js/update_region.js"></script>
+<script src="./js/update_monster.js"></script>
 
 <a href="/">Home</a>

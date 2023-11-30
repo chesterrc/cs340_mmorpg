@@ -31,7 +31,7 @@ updateRegionForm.addEventListener("submit", function (e) {
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("PUT", "/put-item-ajax", true);
+    xhttp.open("PUT", "/put-monster-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
@@ -56,7 +56,7 @@ updateRegionForm.addEventListener("submit", function (e) {
 function updateRow(data, monsterID){
     let parsedData = JSON.parse(data);
     
-    let table = document.getElementById("items-table");
+    let table = document.getElementById("monsters-table");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
        //iterate through rows

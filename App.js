@@ -90,7 +90,7 @@ app.get('/monsters-page', function(req, res)
         let query_monsters;
         let query_regions = "SELECT * FROM Regions;";
         if (req.query.monster_name === undefined || req.query.monster_name === ''){
-            query_monsters = "SELECT * FROM Items;";
+            query_monsters = "SELECT * FROM Monsters;";
         }
         else{
             query_monsters = `SELECT * FROM Monsters WHERE monster_name = "${req.query.monster_name}";`;
@@ -390,9 +390,9 @@ app.put('/put-player-ajax', function(req,res,next){
     let level = parseInt(data.level);
     let itemcount = parseInt(data.itemcount);
     let region = parseInt(data.region);
-    console.log(data);
+    //console.log(data); debugging 
     let queryUpdatepplayer = `UPDATE Players SET char_xp = ?, char_lvl = ?, char_inventory_items = ?, regions_rg_id = ? WHERE user_id = ?;`;
-    let selectrg = `SELECT * FROM Regions WHERE rg_id = ?`
+    let selectrg = `SELECT * FROM Regions WHERE rg_id = ?;`
   
           // Run the 1st query
           db.pool.query(queryUpdatepplayer, [xp, level, itemcount, region, char], function(error, rows, fields){
@@ -426,8 +426,8 @@ app.put('/put-item-ajax', function(req,res,next){
     let item = parseInt(data.itemname);
     let region = parseInt(data.region);
     //console.log(data);
-    let queryUpdateItem = `UPDATE Items SET regions_rg_id = ? WHERE item_id = ?`;
-    let selectrg = `SELECT * FROM Regions WHERE rg_id = ?`
+    let queryUpdateItem = `UPDATE Items SET regions_rg_id = ? WHERE item_id = ?;`;
+    let selectrg = `SELECT * FROM Regions WHERE rg_id = ?;`
   
           // Run the 1st query
           db.pool.query(queryUpdateItem, [region, item], function(error, rows, fields){
@@ -461,8 +461,8 @@ app.put('/put-item-ajax', function(req,res,next){
     let monster = parseInt(data.monster);
     let region = parseInt(data.region);
     //console.log(data);
-    let queryUpdatemonster = `UPDATE Monsters regions_rg_id = ? WHERE monster_id = ?`;
-    let selectrg = `SELECT * FROM Regions WHERE rg_id = ?`
+    let queryUpdatemonster = `UPDATE Monsters SET regions_rg_id = ? WHERE monster_id = ?;`;
+    let selectrg = `SELECT * FROM Regions WHERE rg_id = ?;`
   
           // Run the 1st query
           db.pool.query(queryUpdatemonster, [region, monster], function(error, rows, fields){
