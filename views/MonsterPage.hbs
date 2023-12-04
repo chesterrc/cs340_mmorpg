@@ -40,7 +40,7 @@
                 <td>{{this.monster_id}}</td>
                 <td>{{this.monster_name}}</td>
                 <td>{{this.monster_lvl}}</td>
-                <td>{{this.regions_rg_id}}</td>
+                <td id="td-regions_rg_id">{{this.regions_rg_id}}</td>
                 <td><button onclick="deleteMonster('{{this.monster_id}}')">Delete</button></td>
             </tr>
             {{/each}}
@@ -76,7 +76,7 @@
 
     <label for="input-monster_name">Monster name: </label>
     <select name="input-monster_name" id="mySelect-monster_name">
-        <option value="test">Select a Monster</option>
+        <option>Select a Monster</option>
         {{#each data}}
         <option value="{{this.monster_id}}">{{this.monster_name}}</option>
         {{/each}}

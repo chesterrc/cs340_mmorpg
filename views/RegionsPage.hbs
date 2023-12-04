@@ -43,3 +43,23 @@
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_regions.js"></script>
 <a href="/">Home</a>
+
+<h2>Updating Regions Form</h2>
+<p>To update a region select the region</p>
+<form id="update-region-form-ajax">
+
+    <label for="input-region_name">Region name: </label>
+    <select name="input-region_name" id="mySelect-region_name" required>
+        <option>Select a region</option>
+        {{#each data}}
+        <option value="{{this.rg_id}}">{{this.rg_name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="update-region_name">New Region name: </label>
+    <input type="text" name="update-region_name" id="input-update-region_name" required>
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_region.js"></script>

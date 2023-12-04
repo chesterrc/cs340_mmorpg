@@ -99,4 +99,11 @@ addRowToTable = (data) => {
     
     // Add the row to the table
     currentTable.appendChild(row);
+
+    //drop-down menu addition
+    let selectMenu = document.getElementById("mySelect-monster_name");
+    let option = document.createElement("option");
+    option.text = newRow.monster_name;
+    option.value = newRow.monster_id;
+    selectMenu.add(option);
 }

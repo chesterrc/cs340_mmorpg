@@ -48,6 +48,7 @@ function deleteRow(itemID){
         if (row.getAttribute("data-value") == itemID) {
             //console.log("Deleting row:", row); // For debugging
             table.deleteRow(i);
+            deleteDropDownMenu(itemID);
             return;
         }
     }
@@ -55,9 +56,11 @@ function deleteRow(itemID){
 }
 
 function deleteDropDownMenu(itemID){
+    console.log('in dropdwon delete')
     let selectMenu = document.getElementById("mySelect-item_name");
     for (let i = 0; i < selectMenu.length; i++){
       if (Number(selectMenu.options[i].value) === Number(itemID)){
+        console.log('removing update menu item')
         selectMenu[i].remove();
         break;
       } 

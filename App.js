@@ -7,7 +7,7 @@
 var express = require('express');   // We are using the express library for the web server
 
 var app     = express();            
-PORT        = 5118;              
+PORT        = 5115;              
 //handlebars
 const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');     // Import express-handlebars
@@ -118,7 +118,7 @@ app.get('/regions-page', function(req, res)
             query_regions = `SELECT * FROM Regions WHERE rg_name = "${req.query.region}";`;
         }
         db.pool.query(query_regions, function(error, rows, fields){
-            //console.log({data: rows});
+
             res.render('RegionsPage', {data: rows, style: 'regions.css'});
         })  
     });
@@ -403,7 +403,7 @@ app.put('/put-player-ajax', function(req,res,next){
     let region = parseInt(data.region);
     //console.log(data); debugging 
     let queryUpdatepplayer = `UPDATE Players SET char_xp = ?, char_lvl = ?, char_inventory_items = ?, regions_rg_id = ? WHERE user_id = ?;`;
-    let selectrg = `SELECT * FROM Regions WHERE rg_id = ?;`
+    let selectrg = `SELECT * FROM Players WHERE user_id = ?;`
   
           // Run the 1st query
           db.pool.query(queryUpdatepplayer, [xp, level, itemcount, region, char], function(error, rows, fields){
@@ -418,7 +418,7 @@ app.put('/put-player-ajax', function(req,res,next){
               else
               {
                   // Run the second query
-                  db.pool.query(selectrg, [region], function(error, rows, fields) {
+                  db.pool.query(selectrg, [char], function(error, rows, fields) {
   
                       if (error) {
                           console.log(error);
@@ -438,7 +438,7 @@ app.put('/put-item-ajax', function(req,res,next){
     let region = parseInt(data.region);
     //console.log(data);
     let queryUpdateItem = `UPDATE Items SET regions_rg_id = ? WHERE item_id = ?;`;
-    let selectrg = `SELECT * FROM Regions WHERE rg_id = ?;`
+    let selectrg = `SELECT * FROM Items WHERE item_id = ?;`
   
           // Run the 1st query
           db.pool.query(queryUpdateItem, [region, item], function(error, rows, fields){
@@ -453,7 +453,7 @@ app.put('/put-item-ajax', function(req,res,next){
               else
               {
                   // Run the second query
-                  db.pool.query(selectrg, [region], function(error, rows, fields) {
+                  db.pool.query(selectrg, [item], function(error, rows, fields) {
   
                       if (error) {
                           console.log(error);
@@ -473,7 +473,7 @@ app.put('/put-item-ajax', function(req,res,next){
     let region = parseInt(data.region);
     //console.log(data);
     let queryUpdatemonster = `UPDATE Monsters SET regions_rg_id = ? WHERE monster_id = ?;`;
-    let selectrg = `SELECT * FROM Regions WHERE rg_id = ?;`
+    let selectrg = `SELECT * FROM Monsters WHERE monster_id = ?;`
   
           // Run the 1st query
           db.pool.query(queryUpdatemonster, [region, monster], function(error, rows, fields){
@@ -488,7 +488,7 @@ app.put('/put-item-ajax', function(req,res,next){
               else
               {
                   // Run the second query
-                  db.pool.query(selectrg, [region], function(error, rows, fields) {
+                  db.pool.query(selectrg, [monster], function(error, rows, fields) {
   
                       if (error) {
                           console.log(error);
@@ -498,6 +498,36 @@ app.put('/put-item-ajax', function(req,res,next){
                       }
                   })
               }
+  })});
+
+  
+//regions
+app.put('/put-region-ajax', function(req,res,next){
+    let data = req.body;
+  
+    let oldrg = parseInt(data.oldregion);
+    let newrg = data.newregion;
+    console.log('backend', data);
+    let queryUpdateregion = `UPDATE Regions SET rg_name = ? WHERE rg_id = ?;`;
+    let selectRegions = 'SELECT * FROM Regions WHERE rg_id = ?'    
+    // Run query
+        db.pool.query(queryUpdateregion, [newrg, oldrg], function(error, rows, fields){
+            if (error) {
+
+            // Log the error 
+            console.log(error);
+            res.sendStatus(400);
+            } else {
+                db.pool.query(selectRegions, [oldrg], function(error, rows, fields){
+                    if (error){
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+                        console.log(rows)
+                        res.status(200).send(rows);
+                    }
+                })
+            }
   })});
 
 /*

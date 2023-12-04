@@ -50,8 +50,20 @@ function deleteRow(playerID){
         if (row.getAttribute("data-value") == playerID) {
             //console.log("Deleting row:", row); // For debugging
             table.deleteRow(i);
+            deleteDropDownMenu(playerID);
             return;
         }
     }
     //console.log("No row found with the provided playerID:", playerID); // For debugging
 }
+
+function deleteDropDownMenu(playerID){
+    let selectMenu = document.getElementById("mySelect-player_name");
+    for (let i = 0; i < selectMenu.length; i++){
+      if (Number(selectMenu.options[i].value) === Number(playerID)){
+        selectMenu[i].remove();
+        break;
+      } 
+  
+    }
+  }

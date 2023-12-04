@@ -50,6 +50,7 @@ function deleteRow(monsterId){
         if (row.getAttribute("data-value") == monsterId) {
             //console.log("Deleting row:", row); // For debugging
             table.deleteRow(i);
+            deleteDropDownMenu(monsterId);
             return;
         }
     }

@@ -12,7 +12,7 @@ updateRegionForm.addEventListener("submit", function (e) {
     let inputrg = document.getElementById("input-region-update");
 
     // Get the values from the form fields
-    let monstername = inputMonstername .value;
+    let monstername = inputMonstername.value;
     let rg = inputrg.value;
 
     // abort if being bassed NULL
@@ -39,7 +39,7 @@ updateRegionForm.addEventListener("submit", function (e) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
-            updateRow(xhttp.response, fullNameValue);
+            updateRow(xhttp.response, monstername);
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -55,8 +55,7 @@ updateRegionForm.addEventListener("submit", function (e) {
 
 function updateRow(data, monsterID){
     let parsedData = JSON.parse(data);
-    
-    let table = document.getElementById("monsters-table");
+    let table = document.getElementById("monsters-tables");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
        //iterate through rows
@@ -68,9 +67,9 @@ function updateRow(data, monsterID){
 
             // Get td of value
             let td = updateRowIndex.getElementsByTagName("td")[3];
-
+            console.log(parsedData[0].regions_rg_id);
             // Reassign to our value we updated to
-            td.innerHTML = parsedData[0].name; 
+            td.innerHTML = parsedData[0].regions_rg_id; 
        }
     }
 }

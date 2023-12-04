@@ -50,8 +50,20 @@ function deleteRow(regionID){
         if (row.getAttribute("data-value") == regionID) {
             //console.log("Deleting row:", row); // For debugging
             table.deleteRow(i);
+            deleteDropDownMenu(regionID);
             return;
         }
     }
     //console.log("No row found with the provided regionID:", regionID); // For debugging
 }
+
+function deleteDropDownMenu(regionID){
+    let selectMenu = document.getElementById("mySelect-region_name");
+    for (let i = 0; i < selectMenu.length; i++){
+      if (Number(selectMenu.options[i].value) === Number(regionID)){
+        selectMenu[i].remove();
+        break;
+      } 
+  
+    }
+  }

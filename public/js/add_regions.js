@@ -81,4 +81,11 @@ addRowToTable = (data) => {
     
     // Add the row to the table
     currentTable.appendChild(row);
+
+    //drop-down menu addition
+    let selectMenu = document.getElementById("mySelect-region_name");
+    let option = document.createElement("option");
+    option.text = newRow.rg_name;
+    option.value = newRow.rg_id;
+    selectMenu.add(option);
 }

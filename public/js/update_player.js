@@ -49,7 +49,7 @@ updateRegionForm.addEventListener("submit", function (e) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
-            updateRow(xhttp.response, fullNameValue);
+            updateRow(xhttp.response, playername);
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -77,10 +77,16 @@ function updateRow(data, playerID){
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             // Get td of value
-            let td = updateRowIndex.getElementsByTagName("td")[3];
+            let td_xp = updateRowIndex.getElementsByTagName("td")[2];
+            let td_lvl = updateRowIndex.getElementsByTagName("td")[3];
+            let td_itemcount = updateRowIndex.getElementsByTagName("td")[4];
+            let td_region = updateRowIndex.getElementsByTagName("td")[5];
 
             // Reassign to our value we updated to
-            td.innerHTML = parsedData[0].name; 
+            td_xp.innerHTML = parsedData[0].char_xp; 
+            td_lvl.innerHTML = parsedData[0].char_lvl; 
+            td_itemcount.innerHTML = parsedData[0].char_inventory_items; 
+            td_region.innerHTML = parsedData[0].regions_rg_id;  
        }
     }
 }
