@@ -24,12 +24,7 @@ addRegionForm.addEventListener("submit", function (e) {
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
-        console.log('inside state change');
-        console.log(xhttp.response);
-        if (xhttp.readyState == 4 && xhttp.status == 204) {
-            console.log('inside if statement xhttps request sent');
-
-            console.log(xhttp.response);
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
             // Add the new data to the table
             addRowToTable(xhttp.response);
                 
@@ -37,7 +32,7 @@ addRegionForm.addEventListener("submit", function (e) {
             inputRegionname.value = '';
 
         }
-        else if (xhttp.readyState == 4 && xhttp.status != 204) {
+        else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
         }
     }
@@ -50,7 +45,6 @@ addRegionForm.addEventListener("submit", function (e) {
 // Creates a single row from an Object representing a single record from 
 // bsg_people
 addRowToTable = (data) => {
-    console.log(data);
     // Get a reference to the current table on the page and clear it out.
     let currentTable = document.getElementById("regions-tables");
 
@@ -60,28 +54,30 @@ addRowToTable = (data) => {
     // Get a reference to the new row from the database query (last object)
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1] 
-    console.log(parsedData);
     // Create a row and 3 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
     let rgCell = document.createElement("TD");
+    let deleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
-    idCell.innerText = newRow.id;
-    rgCell.innerText = newRow.fname;
+    idCell.innerText = newRow.rg_id;
+    rgCell.innerText = newRow.rg_name;
+    
 
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function(){
-        deleteRegion(newRow.id);
+        deleteRegion(newRow.rg_id);
     };
 
     // Add the cells to the row 
     row.appendChild(idCell);
     row.appendChild(rgCell);
+    row.appendChild(deleteCell);
 
     // Add a row attribute so the deleteRow function can find a newly added row
-    row.setAttribute('data-value', newRow.id);
+    row.setAttribute('data-value', newRow.rg_id);
     
     // Add the row to the table
     currentTable.appendChild(row);

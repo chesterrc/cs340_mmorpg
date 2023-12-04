@@ -11,13 +11,13 @@ function deleteRegion(regionID) {
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 204) {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
             //console.log('about to bust');
             deleteRow(regionID);
         }
-        else if (xhttp.readyState == 4 && xhttp.status != 204) {
+        else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
         }
     }
@@ -39,19 +39,19 @@ function deleteRow(regionID){
     }
 }*/
 function deleteRow(regionID){
-    console.log("Attempting to delete regionID:", regionID); // For debugging
+    //console.log("Attempting to delete regionID:", regionID); // For debugging
     let table = document.getElementById("regions-tables");
     if (!table) {
-        console.log("Table not found!"); // For debugging
+        //console.log("Table not found!"); // For debugging
         return;
     }
     for (let i = 0, row; row = table.rows[i]; i++) {
-        console.log("Checking row:", row.getAttribute("data-value")); // For debugging
+        //console.log("Checking row:", row.getAttribute("data-value")); // For debugging
         if (row.getAttribute("data-value") == regionID) {
-            console.log("Deleting row:", row); // For debugging
+            //console.log("Deleting row:", row); // For debugging
             table.deleteRow(i);
             return;
         }
     }
-    console.log("No row found with the provided regionID:", regionID); // For debugging
+    //console.log("No row found with the provided regionID:", regionID); // For debugging
 }

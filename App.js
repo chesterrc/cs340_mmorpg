@@ -168,7 +168,7 @@ app.post('/add-player-ajax', function(req, res)
                 // If all went well, send the results of the query back.
                 else
                 {
-                    res.status(204).send(rows);
+                    res.status(200).send(rows);
                     
                 }
             })
@@ -207,7 +207,7 @@ app.post('/add-item-ajax', function(req, res)
                 // If all went well, send the results of the query back.
                 else
                 {
-                    res.status(204).send(rows);
+                    res.status(200).send(rows);
                     
                 }
             })
@@ -246,8 +246,9 @@ app.post('/add-monster-ajax', function(req, res)
                 }
                 // If all went well, send the results of the query back.
                 else
-                {
-                    res.status(204).send(rows);
+                {   
+                    //console.log('all good');
+                    res.status(200).send(rows);
                     
                 }
             })
@@ -286,7 +287,7 @@ app.post('/add-region-ajax', function(req, res)
                 // If all went well, send the results of the query back.
                 else
                 {
-                    res.status(204).send(rows);
+                    res.status(200).send(rows);
                     
                 }
             })
@@ -304,15 +305,16 @@ app.delete('/delete-player-ajax', function(req,res,next){
     let userID = parseInt(data.id);
     //console.log(monsterID); debug
     let delete_item = `DELETE FROM Players WHERE user_id = ?`;
-  
-  
           // Run the 1st query
           db.pool.query(delete_item, [userID], function(error, rows, fields){
               if (error) {
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
               console.log(error);
-              res.sendStatus(204);
+              res.sendStatus(400);
+              
+              } else{
+                res.sendStatus(200);
               }
 
 })});
@@ -333,7 +335,10 @@ app.delete('/delete-item-ajax', function(req,res,next){
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
               console.log(error);
-              res.sendStatus(204);
+              res.sendStatus(400);
+              
+              } else {
+                res.sendStatus(200);
               }
 
   })});
@@ -353,7 +358,10 @@ app.delete('/delete-monster-ajax', function(req,res,next){
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
               console.log(error);
-              res.sendStatus(204);
+              res.sendStatus(400);
+              
+              } else {
+                res.sendStatus(200);
               }
 
   })});
@@ -372,7 +380,10 @@ app.delete('/delete-region-ajax', function(req,res,next){
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
               console.log(error);
-              res.sendStatus(204);
+              res.sendStatus(400);
+              
+              } else {
+                res.sendStatus(200);
               }
 
   })});
@@ -413,7 +424,7 @@ app.put('/put-player-ajax', function(req,res,next){
                           console.log(error);
                           res.sendStatus(400);
                       } else {
-                          res.status(204).send(rows);
+                          res.status(200).send(rows);
                       }
                   })
               }
@@ -448,7 +459,7 @@ app.put('/put-item-ajax', function(req,res,next){
                           console.log(error);
                           res.sendStatus(400);
                       } else {
-                          res.status(204).send(rows);
+                          res.status(200).send(rows);
                       }
                   })
               }
@@ -483,7 +494,7 @@ app.put('/put-item-ajax', function(req,res,next){
                           console.log(error);
                           res.sendStatus(400);
                       } else {
-                          res.status(204).send(rows);
+                          res.status(200).send(rows);
                       }
                   })
               }

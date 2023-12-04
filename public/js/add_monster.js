@@ -30,12 +30,10 @@ addPersonForm.addEventListener("submit", function (e) {
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
-        console.log('inside state change');
-        console.log(xhttp.response);
-        if (xhttp.readyState == 4 && xhttp.status == 204) {
-            console.log('inside if statement xhttps request sent');
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            //console.log('inside if statement xhttps request sent');
 
-            console.log(xhttp.response);
+            //console.log(xhttp.response);
             // Add the new data to the table
             addRowToTable(xhttp.response);
                 
@@ -44,7 +42,7 @@ addPersonForm.addEventListener("submit", function (e) {
             inputMonsterlvl.value = '';
             inputrg.value = '';
         }
-        else if (xhttp.readyState == 4 && xhttp.status != 204) {
+        else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
         }
     }
@@ -57,7 +55,7 @@ addPersonForm.addEventListener("submit", function (e) {
 // Creates a single row from an Object representing a single record from 
 // bsg_people
 addRowToTable = (data) => {
-    console.log(data);
+    //console.log('inside addRow to table function');
     // Get a reference to the current table on the page and clear it out.
     let currentTable = document.getElementById("monsters-tables");
 
@@ -67,7 +65,7 @@ addRowToTable = (data) => {
     // Get a reference to the new row from the database query (last object)
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1] 
-    console.log(parsedData);
+    //console.log(newRow);
     // Create a row and 3 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
@@ -77,15 +75,16 @@ addRowToTable = (data) => {
     let deleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
-    idCell.innerText = newRow.id;
-    MonsterNameCell.innerText = newRow.fname;
-    MonsterlvlCell.innerText = newRow.fname;
-    rgCell.innerText = newRow.lname;
+    idCell.innerText = newRow.monster_id;
+    MonsterNameCell.innerText = newRow.monster_name;
+    MonsterlvlCell.innerText = newRow.monster_lvl;
+    rgCell.innerText = newRow.regions_rg_id;
+    //console.log(newRow.id)
 
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function(){
-        deletePerson(newRow.id);
+        deleteMonster(newRow.monster_id);
     };
 
     // Add the cells to the row 
@@ -96,7 +95,7 @@ addRowToTable = (data) => {
     row.appendChild(deleteCell);
 
     // Add a row attribute so the deleteRow function can find a newly added row
-    row.setAttribute('data-value', newRow.id);
+    row.setAttribute('data-value', newRow.monster_id);
     
     // Add the row to the table
     currentTable.appendChild(row);

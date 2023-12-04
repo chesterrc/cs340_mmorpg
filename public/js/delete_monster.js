@@ -11,13 +11,13 @@ function deleteMonster(monsterId) {
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 204) {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
             //console.log('about to bust');
             deleteRow(monsterId);
         }
-        else if (xhttp.readyState == 4 && xhttp.status != 204) {
+        else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
         }
     }
@@ -39,16 +39,16 @@ function deleteRow(monsterId){
     }
 }*/
 function deleteRow(monsterId){
-    console.log("Attempting to delete monsterId:", monsterId); // For debugging
+    //console.log("Attempting to delete monsterId:", monsterId); // For debugging
     let table = document.getElementById("monsters-tables");
     if (!table) {
         console.log("Table not found!"); // For debugging
         return;
     }
     for (let i = 0, row; row = table.rows[i]; i++) {
-        console.log("Checking row:", row.getAttribute("data-value")); // For debugging
+        //console.log("Checking row:", row.getAttribute("data-value")); // For debugging
         if (row.getAttribute("data-value") == monsterId) {
-            console.log("Deleting row:", row); // For debugging
+            //console.log("Deleting row:", row); // For debugging
             table.deleteRow(i);
             return;
         }

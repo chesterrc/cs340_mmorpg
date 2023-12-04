@@ -3,7 +3,7 @@ function deleteItem(itemID) {
     let data = {
         id: itemID
     };
-    //console.log(data)
+
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("DELETE", "/delete-item-ajax", true);
@@ -11,13 +11,12 @@ function deleteItem(itemID) {
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 204) {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
-            //console.log('about to bust');
             deleteRow(itemID);
         }
-        else if (xhttp.readyState == 4 && xhttp.status != 204) {
+        else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
         }
     }
@@ -39,21 +38,20 @@ function deleteRow(itemID){
     }
 }*/
 function deleteRow(itemID){
-    console.log("Attempting to delete itemID:", itemID); // For debugging
     let table = document.getElementById("items-tables");
     if (!table) {
-        console.log("Table not found!"); // For debugging
+        //console.log("Table not found!"); // For debugging
         return;
     }
     for (let i = 0, row; row = table.rows[i]; i++) {
         console.log("Checking row:", row.getAttribute("data-value")); // For debugging
         if (row.getAttribute("data-value") == itemID) {
-            console.log("Deleting row:", row); // For debugging
+            //console.log("Deleting row:", row); // For debugging
             table.deleteRow(i);
             return;
         }
     }
-    console.log("No row found with the provided itemID:", itemID); // For debugging
+    
 }
 
 function deleteDropDownMenu(itemID){
