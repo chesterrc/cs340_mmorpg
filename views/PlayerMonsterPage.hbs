@@ -71,3 +71,37 @@
 </form>
 
 <script src="./js/add_kills.js"></script>
+
+
+{{!-- update monster --}}
+<h2>Updating Monster Form</h2>
+<p>To update an monster's region select the region</p>
+<form id="update-kill-form-ajax">
+
+    <label for="input-user_name">Character Name: </label>
+    <select name="input-user_name" id="mySelect-char_name">
+        <option>Select a Character</option>
+        {{#each data}}
+        <option value="{{this.players_user_id}}">{{this.char_name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-monster">Monster Name: </label>
+    <select name="input-monster" id="input-monster-update">
+        <option>Select a Monster:</option>
+        {{#each data}}
+        <option value="{{this.monsters_monster_id}}">{{this.monster_name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-kills_count">Monster kill count:</label>
+    <input type="number" name="input-kills_count" id="update-kills_count" required>
+    
+    <lable for="input-xp_gained">XP gained:</lable>
+    <input type="number" name="input-xp_gained" id="update-xp_gained" required>
+
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_kill.js"></script>

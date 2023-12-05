@@ -128,7 +128,7 @@ Player has Monsters Page
 This is incomplete need to add other attributes
 */
 app.get('/PlayerMonster-page', function(req, res)
-    {
+    {   console.log(req.query.player_name);
         let query_kills;
         let query_players = 'SELECT user_id, char_name FROM Players;'
         let query_monsters = 'SELECT monster_id, monster_name FROM Monsters;'
@@ -138,8 +138,11 @@ app.get('/PlayerMonster-page', function(req, res)
                         "INNER JOIN Players ON Players_has_monsters.players_user_id = Players.user_id " +
                         "INNER JOIN Monsters ON Players_has_monsters.monsters_monster_id = Monsters.monster_id;";
         } else{
-            console.log('passing through no inner join else');
-            query_kills = `SELECT * FROM Players_has_monsters where user_id = "${req.query.player_name}";`;
+
+            query_kills = `SELECT * FROM Players_has_monsters ` +
+            "INNER JOIN Players ON Players_has_monsters.players_user_id = Players.user_id " +
+            "INNER JOIN Monsters ON Players_has_monsters.monsters_monster_id = Monsters.monster_id " +
+            `where char_name = "${req.query.player_name}";`;
         }
         db.pool.query(query_kills, function(error, rows, fields){
             let kills = rows;
@@ -607,6 +610,48 @@ app.put('/put-region-ajax', function(req,res,next){
                     }
                 })
             }
+  })});
+
+
+//items
+app.put('/put-kills-ajax', function(req,res,next){
+    let data = req.body;
+  
+    let char = parseInt(data.character);
+    let monst = parseInt(data.monster);
+    let kills = parseInt(data.kills);
+    let xp = parseInt(data.xps);
+
+    let queryUpdateItem = `UPDATE Players_has_monsters SET monsters_monster_id = ?, monster_kill_count = ?, xp_gained = ? WHERE players_user_id = ?;`;
+    let query_kills = "SELECT players_user_id, monsters_monster_id, monster_kill_count, xp_gained, char_name, monster_name " +
+                        "FROM Players_has_monsters " +
+                        "INNER JOIN Players ON Players_has_monsters.players_user_id = Players.user_id " +
+                        "INNER JOIN Monsters ON Players_has_monsters.monsters_monster_id = Monsters.monster_id "+
+                        "WHERE user_id = ? AND monster_id = ?;";
+  
+          // Run the 1st query
+          db.pool.query(queryUpdateItem, [monst, kills, xp, char], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error 
+              console.log(error);
+              res.sendStatus(400);
+              }
+  
+              // If there was no error, we run  second query and return data to frontend
+              else
+              {
+                  // Run the second query
+                  db.pool.query(query_kills, [char, monst], function(error, rows, fields) {
+  
+                      if (error) {
+                          console.log(error);
+                          res.sendStatus(400);
+                      } else {
+                          res.status(200).send(rows);
+                      }
+                  })
+              }
   })});
 
 /*

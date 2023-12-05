@@ -119,13 +119,18 @@ addRowToTable = (data) => {
     
     // Add the row to the table
     currentTable.appendChild(row);
-    /* 
-    Requires SQL expression so that only the requried people are on it
-    //drop-down menu addition
-    let selectMenu = document.getElementById("mySelect-players_name");
+    
+    //drop-down menu additions
+    let selectMenu = document.getElementById("mySelect-char_name");
     let option = document.createElement("option");
-    option.text = newRow.item_name;
-    option.value = newRow.item_id;
+    option.text = newRow.char_name;
+    option.value = newRow.user_id;
     selectMenu.add(option);
-    */
+
+    let MonsterselectMenu = document.getElementById("input-monster-update");
+    let monster_option = document.createElement("option");
+    monster_option.text = newRow.monster_name;
+    monster_option.value = newRow.monster_id;
+    MonsterselectMenu.add(option);
+    
 }

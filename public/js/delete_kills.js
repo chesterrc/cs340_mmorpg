@@ -58,7 +58,7 @@ function deleteRow(players_user_id, monster_id){
 }
 
 function deleteDropDownMenu(players_user_id, monster_id){
-    let selectMenu = document.getElementById("mySelect-monster_name");
+    let selectMenu = document.getElementById("mySelect-char_name");
     for (let i = 0; i < selectMenu.length; i++){
       if (Number(selectMenu.options[i].value) === Number(players_user_id)){
         selectMenu[i].remove();
