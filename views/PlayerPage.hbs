@@ -1,7 +1,15 @@
-<!-- PlayerPage.hbs -->
-<nav> 
-    <a href="/">Home</a> | <a href="/players-page">Players</a> | <a href="/invts-page">Inventories</a> | <a href="/items-page">Items</a> | <a href="/monsters-page">Monsters</a> | <a href="/regions-page">Regions</a> 
+<nav id="navbar">
+    <ul>
+        <li>
+            <a href="/players-page">Players</a>
+            <a href="/PlayerMonster-page">Player to Monster Kills</a>
+            <a href="/regions-page">Regions</a>
+            <a href="/monsters-page">Monsters</a>
+            <a href="/items-page">Items</a>
+        </li>
+    </ul>
 </nav>
+
 <div id="browse" style="display: block">
 <p><strong>Browse Inventories</strong></p>
 {{!-- Search bar --}}
@@ -110,4 +118,3 @@
 
 <script src="./js/update_player.js"></script>
 
-<a href="/">Home</a>

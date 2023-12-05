@@ -1,26 +1,73 @@
+<nav id="navbar">
+    <ul>
+        <li>
+            <a href="/players-page">Players</a>
+            <a href="/PlayerMonster-page">Player to Monster Kills</a>
+            <a href="/regions-page">Regions</a>
+            <a href="/monsters-page">Monsters</a>
+            <a href="/items-page">Items</a>
+        </li>
+    </ul>
+</nav>
+{{!-- Search bar --}}
+<h2> Player Search </h2>
+<form id="search-player-html" method="GET" action="/PlayerMonster-page">
+    <label for = "input-player_name">Search by Player Name:</label>
+    <input type="text" name="player_name" id="input-search-player_name"/>
+
+    <input type="submit"/>
+    <a href="/PlayerMonster-page"><button>Reset</button></a>
+</form>
 {{!-- Create a table for inventory--}}
 <table id="playermonster-tables">
     {{!-- Header section --}}
     <thead>
         <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>Player</th>
+            <th>Monster</th>
+            <th>Kills</th>
+            <th>XP gained</th>
         </tr>
     </thead>
     {{!-- Body section --}}
     <tbody>
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
-        <tr>
-            <td>{{this.players_user_id}}</td>
-            <td>{{this.monsters_monster_id}}</td>
+        <tr user="{{this.players_user_id}}" monster="{{this.monsters_monster_id}}">
+            <td>{{this.char_name}}</td>
+            <td>{{this.monster_name}}</td>
             <td>{{this.monster_kill_count}}</td>
             <td>{{this.xp_gained}}</td>
+            <td><button onclick="deleteKills('{{this.players_user_id}}', '{{this.monsters_monster_id}}')">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
-<a href="/">Home</a>
+<script src="./js/delete_kills.js"></script>
+
+{{!-- Form to add a record to the table  --}}
+<h2>Add Monster Kills for a Player</h2>
+<p>To add a monster kill for a player, enter their info and click 'Submit'!</p>
+<form id="add-kills-form-ajax">
+    <label for="input-player">Player: </label>
+        <select name="input-player" id="input_player">
+            {{#each char}}
+            <option value='{{this.user_id}}'>{{this.char_name}}</option>
+            {{/each}}
+        </select>
+    <label for="input-monster_id">Monster: </label>
+        <select name="input-monster_id" id="input-monster_id">
+            {{#each mon}}
+            <option value='{{this.monster_id}}'>{{this.monster_name}}</option>
+            {{/each}}
+        </select>   
+    <label for="input-kills_count">Monster kill count:</label>
+    <input type="number" name="input-kills_count" id="input-kills_count" required>
+    
+    <lable for="input-xp_gained">XP gained:</lable>
+    <input type="number" name="input-xp_gained" id="input-xp_gained" required>
+ 
+    <input type="submit">
+</form>
+
+<script src="./js/add_kills.js"></script>

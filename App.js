@@ -129,10 +129,28 @@ This is incomplete need to add other attributes
 */
 app.get('/PlayerMonster-page', function(req, res)
     {
-        let query_regions = "SELECT * FROM Players_has_monsters;";
-        db.pool.query(query_regions, function(error, rows, fields){
-            //console.log({data: rows});
-            res.render('PlayerMonsterPage', {data: rows, style: 'playermonster.css'});
+        let query_kills;
+        let query_players = 'SELECT user_id, char_name FROM Players;'
+        let query_monsters = 'SELECT monster_id, monster_name FROM Monsters;'
+        if (req.query.player_name === undefined || req.query.player_name === ''){
+            query_kills = "SELECT players_user_id, monsters_monster_id, monster_kill_count, xp_gained, char_name, monster_name " +
+                        "FROM Players_has_monsters " +
+                        "INNER JOIN Players ON Players_has_monsters.players_user_id = Players.user_id " +
+                        "INNER JOIN Monsters ON Players_has_monsters.monsters_monster_id = Monsters.monster_id;";
+        } else{
+            console.log('passing through no inner join else');
+            query_kills = `SELECT * FROM Players_has_monsters where user_id = "${req.query.player_name}";`;
+        }
+        db.pool.query(query_kills, function(error, rows, fields){
+            let kills = rows;
+            
+            db.pool.query(query_players, function(error, rows, fields){
+                let players = rows;
+
+                db.pool.query(query_monsters, function(error, rows, fields){
+                    res.render('PlayerMonsterPage', {data: kills, char: players, mon: rows, style: 'playermonster.css'});
+                })
+            })
         })  
     });
 
@@ -295,13 +313,54 @@ app.post('/add-region-ajax', function(req, res)
     })
 });
 
+//add player to monster kills
+app.post('/add-kills-ajax', function(req, res) 
+{   
+    let data = req.body;
+    // Create the query and run it on the database
+    query1 = `INSERT INTO Players_has_monsters (players_user_id, monsters_monster_id, monster_kill_count, xp_gained) VALUES ('${data.user}', '${data.mon_id}', '${data.kills}', '${data.xp}')`;
+    db.pool.query(query1, function(error, rows, fields){
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * 
+            query_kills = "SELECT players_user_id, monsters_monster_id, monster_kill_count, xp_gained, char_name, monster_name " +
+                        "FROM Players_has_monsters " +
+                        "INNER JOIN Players ON Players_has_monsters.players_user_id = Players.user_id " +
+                        "INNER JOIN Monsters ON Players_has_monsters.monsters_monster_id = Monsters.monster_id;";
+            db.pool.query(query_kills, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                    
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.status(200).send(rows);
+                    
+                }
+            })
+        }
+    })
+});
+
 
 /* DELETE ROUTES */
 
 //delete player
 app.delete('/delete-player-ajax', function(req,res,next){
     let data = req.body;
-    console.log(data)
     let userID = parseInt(data.id);
     //console.log(monsterID); debug
     let delete_item = `DELETE FROM Players WHERE user_id = ?`;
@@ -323,9 +382,7 @@ app.delete('/delete-player-ajax', function(req,res,next){
 //delete item
 app.delete('/delete-item-ajax', function(req,res,next){
     let data = req.body;
-    console.log(data)
     let itemID = parseInt(data.id);
-    console.log(itemID); 
     let delete_item = `DELETE FROM Items WHERE item_id = ?`;
   
   
@@ -387,7 +444,29 @@ app.delete('/delete-region-ajax', function(req,res,next){
               }
 
   })});
-  //
+  //Player has monsters
+  app.delete('/delete-kills-ajax', function(req,res,next){
+    let data = req.body;
+  
+    let userID = parseInt(data.user_id);
+    let monsterID = parseInt(data.monster_id);
+
+    let delete_item = `DELETE FROM Players_has_monsters WHERE players_user_id = ? AND monsters_monster_id = ?;`;
+  
+          // Run the 1st query
+          db.pool.query(delete_item, [userID, monsterID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              
+              } else {
+                res.sendStatus(200);
+              }
+
+  })});
+
 
 /*
 UPDATE FUNCTIONS
