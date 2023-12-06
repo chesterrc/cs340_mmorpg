@@ -1,0 +1,94 @@
+<nav id="navbar">
+    <ul>
+        <li>
+            <a href="/players-page">Players</a>
+            <a href="/PlayerMonster-page">Player to Monster Kills</a>
+            <a href="/regions-page">Regions</a>
+            <a href="/monsters-page">Monsters</a>
+            <a href="/items-page">Items</a>
+            <a href="/PlayerItem-page">Items</a> 
+        </li>
+    </ul>
+</nav>
+
+{{!-- Search bar --}}
+<h2> Player Search </h2>
+<form id="search-player-html" method="GET" action="/PlayerMonster-page">
+    <label for = "input-player_name">Search by Player Name:</label>
+    <input type="text" name="player_name" id="input-search-player_name"/>
+
+    <input type="submit"/>
+    <a href="/PlayerMonster-page"><button>Reset</button></a>
+</form>
+{{!-- Create a table for inventory--}}
+<table id="playeritem-tables">
+    {{!-- Header section --}}
+    <thead>
+        <tr>
+            <th></th>
+            <th>Player</th>
+            <th>Item</th>
+        </tr>
+    </thead>
+    {{!-- Body section --}}
+    <tbody>
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr data-value="{{this.count}}">
+            <td>{{this.count}}</td>
+            <td>{{this.char_name}}</td>
+            <td>{{this.item_name}}</td>
+            <td><button onclick="deletePlayerItem('{{this.count}}')">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_playeritem.js"></script>
+
+{{!-- Form to add a record to the table  --}}
+<h2>Add an Item for a Player</h2>
+<p>To add an item for a player, enter their info and click 'Submit'!</p>
+<form id="add-playeritem-form-ajax">
+    <label for="input-player">Player: </label>
+        <select name="input-player" id="input_player">
+            {{#each char}}
+            <option value='{{this.user_id}}'>{{this.char_name}}</option>
+            {{/each}}
+        </select>
+    <label for="input-item_id">Item: </label>
+        <select name="input-item_id" id="input-item_id">
+            {{#each itm}}
+            <option value='{{this.item_id}}'>{{this.item_name}}</option>
+            {{/each}}
+        </select>   
+    <input type="submit">
+</form>
+
+<script src="./js/add_playeritem.js"></script>
+
+
+{{!-- update Player Item --}}
+<h2>Updating Item for a Player Form</h2>
+<p>To update a Player's Items, select their name and what item you would like to update</p>
+<form id="update-playeritem-form-ajax">
+    <label for="input-row_name">Character Name: </label>
+    <select name="input-row_name" id="mySelect-row">
+        <option>Select a row</option>
+        {{#each data}}
+        <option value="{{this.count}}">{{this.count}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-item">Item Name: </label>
+    <select name="input-item" id="input-item-update">
+        <option>Select an Item:</option>
+        {{#each itm}}
+        <option value="{{this.item_id}}">{{this.item_name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_playeritem.js"></script>

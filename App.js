@@ -125,10 +125,9 @@ app.get('/regions-page', function(req, res)
 
 /* 
 Player has Monsters Page 
-This is incomplete need to add other attributes
 */
 app.get('/PlayerMonster-page', function(req, res)
-    {   console.log(req.query.player_name);
+    {   
         let query_kills;
         let query_players = 'SELECT user_id, char_name FROM Players;'
         let query_monsters = 'SELECT monster_id, monster_name FROM Monsters;'
@@ -157,6 +156,37 @@ app.get('/PlayerMonster-page', function(req, res)
         })  
     });
 
+//Player has item's page    
+app.get('/PlayerItem-page', function(req, res)
+        { 
+            let query_playeritem;
+            let query_players = 'SELECT user_id, char_name FROM Players;'
+            let query_items = 'SELECT item_id, item_name  FROM Items;'
+            if (req.query.player_name === undefined || req.query.player_name === ''){
+                query_playeritem = "SELECT count, Player_has_item.user_id, Player_has_item.item_id, char_name, item_name " +
+                            "FROM Player_has_item " +
+                            "INNER JOIN Players ON Player_has_item.user_id = Players.user_id " +
+                            "INNER JOIN Items ON Player_has_item.item_id = Items.item_id;";
+            } else{
+    
+                query_playeritems = `SELECT * FROM Player_has_item ` +
+                "INNER JOIN Players ON Player_has_item.user_id = Players.user_id " +
+                "INNER JOIN Items ON Player_has_item.item_id = Items.item_id " +
+                `where char_name = "${req.query.player_name}";`;
+            }
+            db.pool.query(query_playeritem, function(error, rows, fields){
+                let playeritem = rows;
+                
+                db.pool.query(query_players, function(error, rows, fields){
+                    let players = rows;
+    
+                    db.pool.query(query_items, function(error, rows, fields){
+                        res.render('PlayerItemPage', {data: playeritem, char: players, itm: rows, style: 'playeritem.css'});
+                    })
+                })
+            })  
+        });
+    
 /* POSTING FUNCTIONS  */
 //add players 
 app.post('/add-player-ajax', function(req, res) 
@@ -358,6 +388,47 @@ app.post('/add-kills-ajax', function(req, res)
     })
 });
 
+//add player item
+app.post('/add-playeritem-ajax', function(req, res)
+{   
+    let data = req.body;
+    // Create the query and run it on the database
+    query1 = `INSERT INTO Player_has_item (user_id, item_id) VALUES ('${data.user}', '${data.itm}')`;
+    db.pool.query(query1, function(error, rows, fields){
+    // Check to see if there was an error
+    if (error) {
+    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+        console.log(error)
+        res.sendStatus(400);
+    }
+    else
+    {
+        // If there was no error, perform a SELECT * 
+        query_playeritem = "SELECT count, Player_has_item.user_id, Player_has_item.item_id, char_name, item_name " +
+        "FROM Player_has_item " +
+        "INNER JOIN Players ON Player_has_item.user_id = Players.user_id " +
+        "INNER JOIN Items ON Player_has_item.item_id = Items.item_id;";
+        db.pool.query(query_playeritem, function(error, rows, fields){
+
+        // If there was an error on the second query, send a 400
+        if (error) {
+            
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+            
+        }
+        // If all went well, send the results of the query back.
+        else
+        {
+            res.status(200).send(rows);
+            
+        }
+            })
+        }
+    })
+});
+
 
 /* DELETE ROUTES */
 
@@ -458,6 +529,28 @@ app.delete('/delete-region-ajax', function(req,res,next){
   
           // Run the 1st query
           db.pool.query(delete_item, [userID, monsterID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              
+              } else {
+                res.sendStatus(200);
+              }
+
+  })});
+
+  //delete player has item
+  app.delete('/delete-playeritem-ajax', function(req,res,next){
+    let data = req.body;
+
+    let rowID = parseInt(data.row);
+
+    let delete_item = `DELETE FROM Player_has_item WHERE count = ?;`;
+  
+          // Run the 1st query
+          db.pool.query(delete_item, [rowID], function(error, rows, fields){
               if (error) {
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -613,7 +706,7 @@ app.put('/put-region-ajax', function(req,res,next){
   })});
 
 
-//items
+//kills
 app.put('/put-kills-ajax', function(req,res,next){
     let data = req.body;
   
@@ -653,6 +746,45 @@ app.put('/put-kills-ajax', function(req,res,next){
                   })
               }
   })});
+
+//player item
+app.put('/put-playeritem-ajax', function(req,res,next){
+    let data = req.body;
+
+    let row = parseInt(data.count);
+    let item = parseInt(data.itm);
+
+    let queryUpdateItem = `UPDATE Player_has_item SET item_id = ? WHERE count = ?;`;
+    let  query_playeritem = "SELECT count, Player_has_item.user_id, Player_has_item.item_id, char_name, item_name " +
+                            "FROM Player_has_item " +
+                            "INNER JOIN Players ON Player_has_item.user_id = Players.user_id " +
+                            "INNER JOIN Items ON Player_has_item.item_id = Items.item_id "+
+                            "WHERE count = ?;";
+
+            // Run the 1st query
+            db.pool.query(queryUpdateItem, [item, row], function(error, rows, fields){
+                if (error) {
+
+                // Log the error 
+                console.log(error);
+                res.sendStatus(400);
+                }
+
+                // If there was no error, we run  second query and return data to frontend
+                else
+                {
+                    // Run the second query
+                    db.pool.query(query_playeritem, [row], function(error, rows, fields) {
+
+                        if (error) {
+                            console.log(error);
+                            res.sendStatus(400);
+                        } else {
+                            res.status(200).send(rows);
+                        }
+                    })
+                }
+})});
 
 /*
     LISTENER
