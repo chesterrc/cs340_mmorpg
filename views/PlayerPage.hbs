@@ -1,3 +1,6 @@
+{{!-- utilized https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main 
+as a skeleton code --}}
+
 <nav id="navbar">
     <ul>
         <li>
@@ -22,38 +25,40 @@
     <input type="submit"/>
     <a href="/players-page"><button>Reset</button></a>
 </form>
-<table id="player-table">
-    {{!-- Header section --}}
-    <thead>
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>XP</th>
-            <th>Level</th>
-            <th>Special Item</th>
-            <th>Region</th>
-        </tr>
-    </thead>
 
-    {{!-- Body section --}}
-    <tbody>
+<div id="playerpage-table-container">
+    <table id="player-table">
+        {{!-- Header section --}}
+        <thead>
+            {{!-- For just the first row, we print each key of the row object as a header cell so we
+            know what each column means when the page renders --}}
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>XP</th>
+                <th>Level</th>
+                <th>Special Item</th>
+                <th>Region</th>
+            </tr>
+        </thead>
 
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each data}}
-        <tr data-value={{this.user_id}}>
-            <td>{{this.user_id}}</td>
-            <td>{{this.char_name}}</td>
-            <td>{{this.char_xp}}</td>
-            <td>{{this.char_lvl}}</td>
-            <td>{{this.char_inventory_items}}</td>
-            <td>{{this.regions_rg_id}}</td>
-            <td><button onclick="deletePlayer('{{this.user_id}}')">Delete</button></td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+        {{!-- Body section --}}
+        <tbody>
+
+            {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+            {{#each data}}
+            <tr data-value={{this.user_id}}>
+                <td>{{this.user_id}}</td>
+                <td>{{this.char_name}}</td>
+                <td>{{this.char_xp}}</td>
+                <td>{{this.char_lvl}}</td>
+                <td>{{this.regions_rg_id}}</td>
+                <td><button onclick="deletePlayer('{{this.user_id}}')">Delete</button></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 <script src="./js/delete_player.js"></script>
 </div> <!-- browse -->
 

@@ -1,3 +1,6 @@
+{{!-- utilized https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main 
+as a skeleton code --}}
+
 <nav id="navbar">
     <ul>
         <li>
@@ -20,27 +23,29 @@
     <a href="/regions-page"><button>Reset</button></a>
 </form>
 
-{{!-- Create a table for regions --}}
-<table id="regions-tables">
-    {{!-- Header section --}}
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Region</th>
-        </tr>
-    </thead>
-    {{!-- Body section --}}
-    <tbody>
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each data}}
-        <tr data-value={{this.rg_id}}>
-            <td>{{this.rg_id}}</td>
-            <td>{{this.rg_name}}</td>
-            <td><button onclick="deleteRegion('{{this.rg_id}}')">Delete</button></td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+<div id="region-table-container">
+    {{!-- Create a table for regions --}}
+    <table id="regions-tables">
+        {{!-- Header section --}}
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Region</th>
+            </tr>
+        </thead>
+        {{!-- Body section --}}
+        <tbody>
+            {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+            {{#each data}}
+            <tr data-value={{this.rg_id}}>
+                <td>{{this.rg_id}}</td>
+                <td>{{this.rg_name}}</td>
+                <td><button onclick="deleteRegion('{{this.rg_id}}')">Delete</button></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 <script src="./js/delete_regions.js"></script>
 
 <h2>Adding Regions</h2>

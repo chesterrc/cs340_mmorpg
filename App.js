@@ -3,6 +3,12 @@
 /*
     SETUP
 */
+
+/*
+utilized https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main 
+as a skeleton code 
+*/
+
 //express
 var express = require('express');   // We are using the express library for the web server
 
@@ -169,17 +175,15 @@ app.get('/PlayerItem-page', function(req, res)
                             "INNER JOIN Items ON Player_has_item.item_id = Items.item_id;";
             } else{
     
-                query_playeritems = `SELECT * FROM Player_has_item ` +
+                query_playeritem = `SELECT * FROM Player_has_item ` +
                 "INNER JOIN Players ON Player_has_item.user_id = Players.user_id " +
                 "INNER JOIN Items ON Player_has_item.item_id = Items.item_id " +
-                `where char_name = "${req.query.player_name}";`;
+                `WHERE char_name = '${req.query.player_name}';`;
             }
             db.pool.query(query_playeritem, function(error, rows, fields){
                 let playeritem = rows;
-                
                 db.pool.query(query_players, function(error, rows, fields){
                     let players = rows;
-    
                     db.pool.query(query_items, function(error, rows, fields){
                         res.render('PlayerItemPage', {data: playeritem, char: players, itm: rows, style: 'playeritem.css'});
                     })

@@ -13,36 +13,39 @@
 
 {{!-- Search bar --}}
 <h2> Player Search </h2>
-<form id="search-player-html" method="GET" action="/PlayerMonster-page">
+<form id="search-player-html" method="GET" action="/PlayerItem-page">
     <label for = "input-player_name">Search by Player Name:</label>
     <input type="text" name="player_name" id="input-search-player_name"/>
 
     <input type="submit"/>
-    <a href="/PlayerMonster-page"><button>Reset</button></a>
+    <a href="/PlayerItem-page"><button>Reset</button></a>
 </form>
 {{!-- Create a table for inventory--}}
-<table id="playeritem-tables">
-    {{!-- Header section --}}
-    <thead>
-        <tr>
-            <th></th>
-            <th>Player</th>
-            <th>Item</th>
-        </tr>
-    </thead>
-    {{!-- Body section --}}
-    <tbody>
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each data}}
-        <tr data-value="{{this.count}}">
-            <td>{{this.count}}</td>
-            <td>{{this.char_name}}</td>
-            <td>{{this.item_name}}</td>
-            <td><button onclick="deletePlayerItem('{{this.count}}')">Delete</button></td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+<div id="playeritem-table-container">
+    <table id="playeritem-tables">
+        {{!-- Header section --}}
+        <thead>
+            <tr>
+                <th></th>
+                <th>Player</th>
+                <th>Item</th>
+            </tr>
+        </thead>
+        {{!-- Body section --}}
+        <tbody>
+            {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+            {{#each data}}
+            <tr data-value="{{this.count}}" user="{{this.char_name}}" item="{{this.item_name}}">
+                <td>{{this.count}}</td>
+                <td>{{this.char_name}}</td>
+                <td>{{this.item_name}}</td>
+                <td><button onclick="deletePlayerItem('{{this.count}}')">Delete</button></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
 <script src="./js/delete_playeritem.js"></script>
 
 {{!-- Form to add a record to the table  --}}

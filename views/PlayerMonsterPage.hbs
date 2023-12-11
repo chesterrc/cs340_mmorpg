@@ -1,3 +1,6 @@
+{{!-- utilized https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main 
+as a skeleton code --}}
+
 <nav id="navbar">
     <ul>
         <li>
@@ -21,30 +24,32 @@
     <a href="/PlayerMonster-page"><button>Reset</button></a>
 </form>
 {{!-- Create a table for inventory--}}
-<table id="playermonster-tables">
-    {{!-- Header section --}}
-    <thead>
-        <tr>
-            <th>Player</th>
-            <th>Monster</th>
-            <th>Kills</th>
-            <th>XP gained</th>
-        </tr>
-    </thead>
-    {{!-- Body section --}}
-    <tbody>
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each data}}
-        <tr user="{{this.players_user_id}}" monster="{{this.monsters_monster_id}}">
-            <td>{{this.char_name}}</td>
-            <td>{{this.monster_name}}</td>
-            <td>{{this.monster_kill_count}}</td>
-            <td>{{this.xp_gained}}</td>
-            <td><button onclick="deleteKills('{{this.players_user_id}}', '{{this.monsters_monster_id}}')">Delete</button></td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+<div id="playermonster-table-container">
+    <table id="playermonster-tables">
+        {{!-- Header section --}}
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Monster</th>
+                <th>Kills</th>
+                <th>XP gained</th>
+            </tr>
+        </thead>
+        {{!-- Body section --}}
+        <tbody>
+            {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+            {{#each data}}
+            <tr user="{{this.players_user_id}}" monster="{{this.monsters_monster_id}}">
+                <td>{{this.char_name}}</td>
+                <td>{{this.monster_name}}</td>
+                <td>{{this.monster_kill_count}}</td>
+                <td>{{this.xp_gained}}</td>
+                <td><button onclick="deleteKills('{{this.players_user_id}}', '{{this.monsters_monster_id}}')">Delete</button></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 <script src="./js/delete_kills.js"></script>
 
 {{!-- Form to add a record to the table  --}}

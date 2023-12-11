@@ -15,6 +15,9 @@ addRegionForm.addEventListener("submit", function (e) {
     let player = username.value;
     let item = itemname.value;
 
+    //check if the player already has an item
+    data_check(player, item);
+
     // Put our data we want to send in a javascript object
     let data = {
         user: player,
@@ -45,6 +48,20 @@ addRegionForm.addEventListener("submit", function (e) {
     xhttp.send(JSON.stringify(data));
 
 })
+
+
+//function to check if player already has an item
+function data_check(player, item){
+    let table = document.getElementById("playeritem-tables")
+    for (let i = 0, row; row = table.rows[i]; i++) {
+        //iterate through rows
+        //rows would be accessed using the "row" variable assigned in the for loop
+        if (table.rows[i].getAttribute('user') == player && table.rows[i].getAttribute('item') == item) {
+            alert('That player already has an item!')
+        }
+     }
+
+}
 
 // Creates a single row from an Object representing a single record from 
 // bsg_people

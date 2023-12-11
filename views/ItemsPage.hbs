@@ -1,3 +1,6 @@
+{{!-- utilized https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main 
+as a skeleton code --}}
+
 <nav id="navbar">
     <ul>
         <li>
@@ -22,30 +25,31 @@
 </form>
 
 {{!-- Create a table for items --}}
-<table id="items-tables">
-    {{!-- Header section --}}
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Item</th>
-            <th>Region</th>
-        </tr>
-    </thead>
-    {{!-- Body section --}}
-    <tbody>
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each data}}
-        <tr data-value={{this.item_id}}>
-            <td>{{this.item_id}}</td>
-            <td>{{this.item_name}}</td>
-            <td>{{this.regions_rg_id}}</td>
-            <td><button onclick="deleteItem('{{this.item_id}}')">Delete</button></td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+<div id="item-table-container">
+    <table id="items-tables">
+        {{!-- Header section --}}
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Item</th>
+                <th>Region</th>
+            </tr>
+        </thead>
+        {{!-- Body section --}}
+        <tbody>
+            {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+            {{#each data}}
+            <tr data-value={{this.item_id}}>
+                <td>{{this.item_id}}</td>
+                <td>{{this.item_name}}</td>
+                <td>{{this.regions_rg_id}}</td>
+                <td><button onclick="deleteItem('{{this.item_id}}')">Delete</button></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 <script src="./js/delete_item.js"></script>
-<!-- add a person -->
 <!-- /views/index.hbs -->
 
 {{!-- Form to add a record to the table  --}}
