@@ -4,11 +4,6 @@
     SETUP
 */
 
-/*
-utilized https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main 
-as a skeleton code 
-*/
-
 //express
 var express = require('express');   // We are using the express library for the web server
 
